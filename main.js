@@ -64,9 +64,8 @@ function pesoEquipaje(){
 }
 
 function checkTripulacion(trips){// Chequea el numero de tripulantes
-    if(isNaN(trips)){
-        alert("Error al ingresar el numero de tripulantes");
-        return false;
+    if((trips>0) && (trips<=2)){
+        return true;
     } else if(trips <= 0){
         alert("Se debe ingresar al menos un tripulante");
         return false;
@@ -74,14 +73,14 @@ function checkTripulacion(trips){// Chequea el numero de tripulantes
         alert("No se pueden ingresar mas de dos tripulantes");
         return false;
     }else{
-        return true;
+        alert("Error al ingresar el numero de tripulantes");
+        return false;
     }
 }
 
 function checkPax(pax){ // pax debe ser un numero mayor o igual a cero y menor o igual a 4
-    if(isNaN(pax)){
-        alert("Error al ingresar el numero de pasajeros");
-        return false;
+    if(((tripulacion === 1)&&(pax < 4)) || ((tripulacion === 2)&&(pax < 3))){
+        return true;
     }else if(pax < 0){
         alert("No pueden ingresarse valores negativos");
         return false;
@@ -89,7 +88,8 @@ function checkPax(pax){ // pax debe ser un numero mayor o igual a cero y menor o
         alert("Se deben ingresar menos pasajeros")
         return false;
     }else{
-        return true;
+        alert("Error al ingresar el numero de pasajeros");
+        return false;
     }
 }
 
@@ -109,11 +109,11 @@ function peso(personas){ // Retorna el peso total de las personas ingresadas
 }
 
 function checkPeso(peso) { //Chequea que el peso ingresado sea valido
-    if((isNaN(peso)) || (peso<=0)){
+    if(peso > 0){
+        return true;
+    }else{
         alert('No se ingreso un peso correcto');
         return false;
-    }else{
-        return true;
     }
 }
 
