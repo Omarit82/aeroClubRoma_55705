@@ -36,7 +36,7 @@ const aeronaves = [];
 const tabla = document.getElementById('tabla');
 const C172 = new Aeronave('Cessna 172',2,2,7.2,2300,1419,43); //AERONAVE POR DEFECTO
 const C206 = new Aeronave('Cessna 206',2,6,10.2,5000,2000,75); //AERONAVE POR DEFECTO
-const PA11 = new Aeronave('Piper PA-11',1,1,4,1600,750,15);  //AERONAVE POR DEFECTO
+const PA11 = new Aeronave('Piper PA-11',1,1,4,1150,750,15);  //AERONAVE POR DEFECTO
 aeronaves.push(C172);
 aeronaves.push(C206);
 aeronaves.push(PA11);
@@ -267,14 +267,17 @@ function pesoEquipaje(){
 }
 
 function checkAeronave(total, avion){ // Realiza el calculo de peso total y controla cuanto remane para combustible.
+    let resultado = document.querySelector('.resultado');
+    resultado.classList.toggle('d-none');
     if(avion.ew+total >= avion.mtow){ // Si es igual significa que no se puede cargar combustible
         alert("Maximo peso de despegue superado");
+        resultado.classList.toggle('d-none');
     } else{
         let fuel = (avion.mtow-avion.ew-total)*1.70/3.8 // Convierto peso de combustible a galones de combustible
         if(fuel > avion.maxfuel){
-            alert("Con: "+truncaDosDecimales(avion.maxfuel)+" galones, puede volar: "+truncaDosDecimales(avion.maxfuel/avion.gph)+" horas | Puede completar el tanque");
+            resultado.innerHTML= `Con ${truncaDosDecimales(avion.maxfuel)} galones, puede volar: ${truncaDosDecimales(avion.maxfuel/avion.gph)} horas | Puede completar el tanque`;
         }else{
-            alert("Con: "+truncaDosDecimales(fuel)+" galones, puede volar: "+truncaDosDecimales(fuel/avion.gph)+ " horas");
+            resultado.innerHTML= `Con ${truncaDosDecimales(fuel)} galones, puede volar: ${truncaDosDecimales(fuel/avion.gph)} horas`;
         }
     }
 }
