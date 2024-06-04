@@ -174,7 +174,7 @@ function seleccion(){
     let th1PaxTotales = document.createElement('th');
     let th2PaxTotales = document.createElement('th');
     th1PaxTotales.innerHTML = 'Peso total de los pasajeros: ';
-    th2PaxTotales.innerHTML = totalPax;
+    th2PaxTotales.innerHTML = pesoPasajeros;
     trPaxTotales.appendChild(th1PaxTotales);
     trPaxTotales.appendChild(th2PaxTotales);
     resultado2.appendChild(trPaxTotales);
@@ -184,7 +184,7 @@ function seleccion(){
     let th1TripTotales = document.createElement('th');
     let th2TripTotales = document.createElement('th');
     th1TripTotales.innerHTML = 'Peso total de los tripulantes: ';
-    th2TripTotales.innerHTML = totalTrip;
+    th2TripTotales.innerHTML = pesoTripulacion;
     trTripTotales.appendChild(th1TripTotales);
     trTripTotales.appendChild(th2TripTotales);
     resultado.appendChild(trTripTotales);
@@ -195,7 +195,7 @@ function seleccion(){
 
 /**FUNCION QUE, A PARTIR DE UN ARREGLO DE PERSONAS DEVUELVE LA SUMA TOTAL DEL PESO DE TODAS */
 function pesoArreglo(array){
-    let total = array.reduce((acumulador, persona) => acumulador + persona.peso.Aeronave, 0);
+    let total = parseFloat(array.reduce((acumulador, persona) => acumulador + persona.peso, 0));
     return total;
 }
 /**FUNCION QUE RETORNA LA CANTIDAD DE TRIPULANTES( AL MENOS 1) */
