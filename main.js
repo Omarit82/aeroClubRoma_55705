@@ -35,10 +35,10 @@ class Persona{
 const aeronaves = [];
 const tabla = document.getElementById('tabla');
 const C172 = new Aeronave('Cessna 172',2,2,7.2,2300,1419,43); //AERONAVE POR DEFECTO
-const C182 = new Aeronave('Cessna 182',2,2,9.2,3500,1819,55); //AERONAVE POR DEFECTO
+const C206 = new Aeronave('Cessna 206',2,6,10.2,5000,2000,75); //AERONAVE POR DEFECTO
 const PA11 = new Aeronave('Piper PA-11',1,1,4,1600,750,15);  //AERONAVE POR DEFECTO
 aeronaves.push(C172);
-aeronaves.push(C182);
+aeronaves.push(C206);
 aeronaves.push(PA11);
 
 
@@ -79,7 +79,9 @@ function menuInicial(){
         case 2:
             ingresarNuevaAeronave();
             mostrarAeronaves();
-            menuInicial();
+            setTimeout(() => {
+                menuInicial();
+            }, 1000);
         break;
         default:
             alert('Valor ingresado incorrecto!');
@@ -133,18 +135,19 @@ function seleccion(){
     for(let i=0; i<cantidadPasajeros; i++){
         pax.push(ingresoPersona());
     }
-    let pesoPasajeros = pesoArreglo(pax);
-    console.log('Peso total de los pax: '+pesoPasajeros);
+    // con este reordenamiento pongo los pasajeros mas pesados cerca del frente mantienendo el centro de gravedad.
+    let paxFinal = pax.sort((a,b)=>b.peso - a.peso);
+    let pesoPasajeros = pesoArreglo(paxFinal);
     let pesoTripulacion = pesoArreglo(trip);
-    console.log('Peso total de la tripulacion: '+pesoTripulacion);
     let equipaje = pesoEquipaje();
     let pesoTotKgr = pesoTripulacion + pesoPasajeros + equipaje;
-    console.log('Peso total: '+pesoTotKgr);
     let pesoTotLbs = pesoTotKgr*2.2;
+
     const resultado = document.getElementById('resTripulacion');
     const resultado2 = document.getElementById('resPasajeros');
     const oculta = document.getElementById('oculta');
-    for(let i=0; i<cantidadTripulantes;i++){
+
+    for(let i=0; i<cantidadTripulantes; i++){
         let tr = document.createElement('tr');
         let th1 = document.createElement('th');
         let th2 = document.createElement('th');
@@ -154,27 +157,45 @@ function seleccion(){
         tr.appendChild(th2);
         resultado.appendChild(tr);
     };
+    
     for(let i=0; i<cantidadPasajeros;i++){
         let tr = document.createElement('tr');
         let th1 = document.createElement('th');
         let th2 = document.createElement('th');
-        th1.innerHTML = pax[i].nombre;
-        th2.innerHTML = pax[i].peso;
+        th1.innerHTML = paxFinal[i].nombre;
+        th2.innerHTML = paxFinal[i].peso;
         tr.appendChild(th1);
         tr.appendChild(th2);
         resultado2.appendChild(tr);
     }
+
+    //AGREGADO DEL VALOR DEL PESO TOTAL DE LOS PASAJEROS A LA TABLA
+    let trPaxTotales = document.createElement('tr');
+    let th1PaxTotales = document.createElement('th');
+    let th2PaxTotales = document.createElement('th');
+    th1PaxTotales.innerHTML = 'Peso total de los pasajeros: ';
+    th2PaxTotales.innerHTML = totalPax;
+    trPaxTotales.appendChild(th1PaxTotales);
+    trPaxTotales.appendChild(th2PaxTotales);
+    resultado2.appendChild(trPaxTotales);
+   
+    //AGREGADO DEL VALOR TOTAL DEL PESO DE LA TRIPULACION A LA TABLA.
+    let trTripTotales = document.createElement('tr');
+    let th1TripTotales = document.createElement('th');
+    let th2TripTotales = document.createElement('th');
+    th1TripTotales.innerHTML = 'Peso total de los tripulantes: ';
+    th2TripTotales.innerHTML = totalTrip;
+    trTripTotales.appendChild(th1TripTotales);
+    trTripTotales.appendChild(th2TripTotales);
+    resultado.appendChild(trTripTotales);
+
     oculta.classList.toggle('d-none');
     checkAeronave(pesoTotLbs,avion);
 }
 
 /**FUNCION QUE, A PARTIR DE UN ARREGLO DE PERSONAS DEVUELVE LA SUMA TOTAL DEL PESO DE TODAS */
 function pesoArreglo(array){
-    let total = 0;
-    for(let i=0;i<array.length;i++){
-        console.log(array[i]);
-        total += array[i].peso; 
-    }
+    let total = array.reduce((acumulador, persona) => acumulador + persona.peso.Aeronave, 0);
     return total;
 }
 /**FUNCION QUE RETORNA LA CANTIDAD DE TRIPULANTES( AL MENOS 1) */
