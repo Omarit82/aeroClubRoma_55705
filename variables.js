@@ -1,26 +1,8 @@
-//******CLASE AERONAVE PARA INSTANCIAR NUEVAS AERONAVES******/
-class Aeronave{
-    constructor(nombre,tripulacion,pax,gph,mtow,ew,maxfuel){
-        this.nombre = nombre,
-        this.tripulacion = tripulacion,
-        this.pax = pax,
-        this.gph = gph,
-        this.mtow = mtow,
-        this.ew = ew,
-        this.maxfuel = maxfuel
-    }
-}
-/**CLASE PERSONA PARA TRIPULANTES Y PASAJEROS. */
-class Persona{
-    constructor(nombre,peso){
-        this.nombre = nombre,
-        this.peso = peso
-    }
-}
 /**INICIALIZACION DE VALORES POR DEFECTO. */
 const aeronaves = [];
 const personas = [];
 const tabla = document.getElementById('tabla');
+const flota = document.getElementById('flota');
 const C172 = new Aeronave('Cessna 172',2,2,7.2,1050,645,43); //AERONAVE POR DEFECTO
 const C206 = new Aeronave('Cessna 206',2,4,19.2,1600,876,92); //AERONAVE POR DEFECTO
 const PA11 = new Aeronave('Piper PA-11',1,1,4,554,340,15);  //AERONAVE POR DEFECTO
@@ -30,7 +12,6 @@ const eleccion = document.createElement('button'); //boton de eleccion de aerona
 const creacion = document.createElement('button'); // boton de creacion de aeronave
 const contenedor = document.createElement('div'); // contenedor de botones
 const link = document.createElement('a');
-
 
 /********************MENU DE OPCIONES*******************/
 contenedor.classList.add('d-flex','justify-content-around','pb-2','pt-2','m-auto','mb-2','w-75');

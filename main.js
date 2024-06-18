@@ -5,10 +5,7 @@ El script calcula a partir de los datos entregados la cantidad de combustible ne
 y si es posible cargar la aeronave con ese peso sin superar el peso maximo de despegue-
 */
 
-/*CARGO LAS AERONAVES POR DEFECTO */
-aeronaves.push(C172);
-aeronaves.push(C206);
-aeronaves.push(PA11);
+
 
 /*MUESTRA LAS AERONAVES CARGADAS EN LA TABLA DEL DOM */
 muestraHome();

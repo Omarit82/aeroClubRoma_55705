@@ -46,6 +46,17 @@ function elegirAeronave(){
 
 /*CARGA Y MUESTRA EN EL DOM LA TABLA DE AERONAVES.*/ 
 function muestraHome(){
+    flota.classList.remove('d-none');
+    /*CARGO LAS AERONAVES POR DEFECTO */
+    aeronaves.push(C172);
+    aeronaves.push(C206);
+    aeronaves.push(PA11);
+    /*CARGO LAS AERONAVES EN LOCALSTORE*/
+    let qtySaved = localStorage.length;
+    for (let i=0; i< qtySaved; i++){
+        let av = JSON.parse(localStorage.getItem('avion_'+i))
+        aeronaves.push(av);
+    }
     tabla.innerHTML=""; //limpio la tabla
     let contador=1;
     for(const avion of aeronaves) {
@@ -83,19 +94,35 @@ function checkAeronave(){ // Realiza el calculo de peso total y controla cuanto 
             pax.peso = 0;
         }
     }
-    let total = despacho.reduce((acumulador, persona) => acumulador + parseFloat(persona.peso), 0);
-    total += parseFloat(equipaje);
+    let totalPax = despacho.reduce((acumulador, persona) => acumulador + parseFloat(persona.peso), 0);
+    let total = totalPax + parseFloat(equipaje);
     const resultado = document.querySelector('.resultado');
+    //Muestro el div del resultado
     resultado.classList.toggle('d-none');
-    if(avion.ew+total >= avion.mtow){ // Si es igual significa que no se puede cargar combustible
-        resultado.innerHTML = `Con un total de : ${truncaDosDecimales(total)} kgr, se supera el peso maximo de despegue de: ${avion.mtow} kgr`
-    } else{
+    //Operador Ternario
+    (avion.ew+total > avion.mtow) ? showOverWeight(resultado) : showWeight(resultado);
+    //oculto la tabla
+    flota.classList.add('d-none');
+    //cierro el modal
+    modal.hide();
+    
+    
+    function showOverWeight(){
+        resultado.innerHTML = `<h4 class="bolder">Con un total de : ${truncaDosDecimales(total + avion.ew)} kgr, se supera el peso maximo de despegue de: ${avion.mtow} kgr</h4>
+                               <p class="text-end">Resumen: Peso pasajeros: ${totalPax} kgr </p>
+                               <p class="text-end">Peso equipaje: ${parseFloat(equipaje)} kgr</p>`;
+
+    }
+    
+    function showWeight(){
         let fuel = (avion.mtow-avion.ew-total)*1.70/3.8 // Convierto peso de combustible a galones de combustible
         if(fuel > avion.maxfuel){
-            resultado.innerHTML= `Con ${truncaDosDecimales(avion.maxfuel)} galones, puede volar: ${truncaDosDecimales(avion.maxfuel/avion.gph)} horas | Puede completar el tanque`;
+            resultado.innerHTML= `<h4 class="">Con ${truncaDosDecimales(avion.maxfuel)} galones, puede volar: ${truncaDosDecimales(avion.maxfuel/avion.gph)} horas | Puede completar el tanque</h4>
+                                    <p class="text-end">Resumen: Peso pasajeros: ${totalPax} kgr </p>
+                                    <p class="text-end">Peso equipaje: ${parseFloat(equipaje)} kgr</p>`;
         }else{
             resultado.innerHTML= `Con ${truncaDosDecimales(fuel)} galones, puede volar: ${truncaDosDecimales(fuel/avion.gph)} horas`;
         }
     }
-    modal.hide();
 }
+
