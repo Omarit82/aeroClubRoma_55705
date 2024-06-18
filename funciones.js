@@ -1,6 +1,7 @@
 function inicio(){
     sessionStorage.removeItem('despacho');
     sessionStorage.removeItem('seleccionado');
+    sessionStorage.removeItem('equipaje');
     eleccion.addEventListener('click',()=>{
         elegirAeronave();
     });
@@ -16,10 +17,11 @@ function inicio(){
             personas.push(nuevaPersona);
         };
         let despacho = JSON.stringify(personas);
+        let equipaje = JSON.stringify(form.get('pesoEquipaje'));
         sessionStorage.removeItem('despacho');
         sessionStorage.setItem('despacho',despacho);
+        sessionStorage.setItem('equipaje',equipaje);
         checkAeronave();
-
     });
 }
 
@@ -34,8 +36,6 @@ function elegirAeronave(){
         element.classList.remove('d-none');
         element.addEventListener('click',()=>{
             let index = (element.id).split('_');
-            const pax =[];
-            const trip = [];
             avion = (aeronaves[index[1]-1]);
             let saved = JSON.stringify(avion);
             sessionStorage.setItem('seleccionado',saved);
@@ -45,7 +45,7 @@ function elegirAeronave(){
 }
 
 /*CARGA Y MUESTRA EN EL DOM LA TABLA DE AERONAVES.*/ 
-function mostrarAeronaves(){
+function muestraHome(){
     tabla.innerHTML=""; //limpio la tabla
     let contador=1;
     for(const avion of aeronaves) {
@@ -73,17 +73,18 @@ function mostrarAeronaves(){
 function checkAeronave(){ // Realiza el calculo de peso total y controla cuanto remane para combustible.
     let avion = sessionStorage.getItem('seleccionado');
     let despacho = sessionStorage.getItem('despacho');
+    let equipaje = sessionStorage.getItem('equipaje');
     avion = JSON.parse(avion);
     despacho = JSON.parse(despacho);
-    console.log(avion);
-    console.log(despacho);
+    equipaje = JSON.parse(equipaje);
+    // SE CONSIDERA 0 EL PESO DE CUALQUIER PASAJERO O TRIPULANTE SIN NOMBRE
     for (const pax of despacho) {
         if(pax.nombre === ""){
             pax.peso = 0;
         }
     }
     let total = despacho.reduce((acumulador, persona) => acumulador + parseFloat(persona.peso), 0);
-    console.log(total);
+    total += parseFloat(equipaje);
     const resultado = document.querySelector('.resultado');
     resultado.classList.toggle('d-none');
     if(avion.ew+total >= avion.mtow){ // Si es igual significa que no se puede cargar combustible

@@ -8,13 +8,12 @@
     </head>
     <body>
         <header>
-
+            <div class="header_titulo">
+               
+            </div>
         </header>
-        <div>
-            <h1 class="text-center m-5"> Peso y balanceo - Aero Club Roma</h1>
-        </div>
         <!-- Menu de opciones-->
-        <div class="opciones">
+        <div class="opciones mt-5 mb-5">
 
         </div>
         <!-- Tabla de aeronaves-->
@@ -38,7 +37,7 @@
                 </table>
             </div>
         </div>
-        <!-- Modal para formulario de carga de pasajeros y tripulacion-->
+        <!-- Modal para formulario de carga de pasajeros, tripulacion y equipaje-->
         <div class="modal fade" id="modalCarga" tabindex="-1" aria-labelledby="formCarga" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -52,7 +51,11 @@
                             </div>
                             <div id="pax">
                             </div>
-                            <input type="submit" class="btn btn-success" id="guardar" value="Guardar">
+                            <div id="equipaje"class="row justify-content-center">
+                            </div>
+                            <div class="p-2 w-25 m-auto">
+                                <input type="submit" class="btn btn-success ms-2" id="guardar" value="Guardar">
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -87,8 +90,10 @@
         </div>
         <div class="resultado card m-auto mb-5 p-2 col-6 text-center d-none fw-bolder">
         </div>
+        <footer></footer>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="header.js"></script>
     <script src="variables.js"></script>
     <script src="funciones.js"></script>
     <script src="view.js"></script>

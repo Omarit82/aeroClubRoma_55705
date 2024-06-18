@@ -11,11 +11,8 @@ aeronaves.push(C206);
 aeronaves.push(PA11);
 
 /*MUESTRA LAS AERONAVES CARGADAS EN LA TABLA DEL DOM */
-mostrarAeronaves();
+muestraHome();
 inicio();
-
-
-
 
 /**FUNCION QUE CREA Y AGREGA AL ARRAY DE AERONAVES UNA NUEVA AERONAVE CARGADA POR EL USUARIO.- */
 function ingresarNuevaAeronave(){

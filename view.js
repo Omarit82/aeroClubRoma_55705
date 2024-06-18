@@ -1,8 +1,12 @@
- function formJs(avion){   
+function formJs(avion){   
     let titulo = document.getElementById('formCargaTitle')
     titulo.innerHTML='Formulario de carga de: '+avion.nombre;
     const primeraFila = document.getElementById('trip');
     const pax = document.getElementById('pax');
+    const equipaje = document.getElementById('equipaje');
+    const tituloEquipaje = document.createElement('h4');
+    tituloEquipaje.innerText = 'Equipaje';
+    tituloEquipaje.classList.add('text-center');
     const paxMaxima = parseInt(avion.pax);
     const tripMaxima = parseInt(avion.tripulacion);
     const tituloTrip = document.createElement('h3');
@@ -63,7 +67,7 @@
         const seat = document.createElement('img');
         const boton = document.createElement('button');
         boton.appendChild(seat);
-        boton.classList.add('w-100','m-auto','btn','btn-info');
+        boton.classList.add('w-100','m-auto','btn','btn-warning');
         seat.classList.add('p-1');
         seat.setAttribute('src','./assets/img/seat.png');
         paxRow.appendChild(boton);
@@ -76,6 +80,25 @@
             nameP.classList.toggle('d-none');
         });
     }
+    equipaje.innerHTML="";
+    equipaje.appendChild(tituloEquipaje);
+    const pesoE = document.createElement('input');
+    pesoE.setAttribute('type','number');
+    pesoE.setAttribute('placeholder','PESO EQUIPAJE');
+    pesoE.setAttribute('name','pesoEquipaje');
+    pesoE.classList.add('d-none','m-1','w-50');
+    const valija = document.createElement('img');
+    const btn = document.createElement('button');
+    btn.appendChild(valija);
+    btn.classList.add('w-50','m-auto','btn','btn-warning');
+    valija.classList.add('p-1');
+    valija.setAttribute('src','./assets/img/bag.png');
+    equipaje.appendChild(btn);
+    equipaje.appendChild(pesoE);
+    btn.addEventListener('click',(e)=>{
+        e.preventDefault();
+        pesoE.classList.toggle('d-none');
+    })
 }
 
 

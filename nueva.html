@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Carga de Nueva Aeronave</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    </head>
+    <body>
+        <header>
+            <div class="header_titulo">
+            </div>
+        </header>
+        <main>
+            <div class="card w-75 m-auto p-5">
+                <form action="" class="d-flex flex-column w-75 m-auto">
+                    <label for="modelo">Modelo de la aeronave</label>
+                    <input type="text" name="modelo" required>
+                    <label for="tripulantes">Ingrese la cantidad de tripulantes</label>
+                    <input type="number" name="tripulantes" required>
+                    <label for="pasajeros">Ingrese la cantidad de pasajeros</label>
+                    <input type="number" name="pasajeros" required>
+                    <label for="consumo">Ingrese el consumo en GPH(galones por hora)</label>
+                    <input type="number" name="consumo" required>
+                    <label for="mtow">Ingrese el peso maximo de despegue en Kgr.</label>
+                    <input type="number" name="mtow" required>
+                    <label for="vacio">Ingrese el peso vacio de la aeronave</label>
+                    <input type="number" name="vacio" required>
+                    <label for="fuel">Ingrese la capacidad de combustible maxima</label>
+                    <input type="number" name="fuel" required>
+                    <button type="submit" class="btn btn-success m-auto mt-3 w-50 ">Guardar</button>
+                </form>
+            </div>
+        </main>
+        <footer></footer>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="header.js"></script>
+</html>
