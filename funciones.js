@@ -1,4 +1,43 @@
-function inicio(){
+/*CARGA Y MUESTRA EN EL DOM LA TABLA DE AERONAVES.*/ 
+function muestraHome(){
+    flota.classList.remove('d-none');
+    /*CARGO LAS AERONAVES POR DEFECTO */
+    aeronaves.push(C172);
+    aeronaves.push(C206);
+    aeronaves.push(PA11);
+    /*CARGO LAS AERONAVES EN LOCALSTORE*/
+    let qtySaved = localStorage.length;
+    for (let i=0; i< qtySaved; i++){
+        let av = JSON.parse(localStorage.getItem('avion_'+i))
+        aeronaves.push(av);
+    }
+    tabla.innerHTML=""; //limpio la tabla
+    let contador=1;
+    for(const avion of aeronaves) {
+        let index = document.createElement('th');
+        index.setAttribute('scope','col');
+        index.innerHTML=contador;
+        let tr = document.createElement('tr');
+        let bn = document.createElement('button');
+        bn.textContent='Seleccionar';
+        bn.classList.add('btn','btn-primary','d-none');
+        bn.setAttribute('id','seleccion_'+contador);
+        tr.appendChild(index);
+        for(let i=0;i<Object.keys(avion).length;i++){
+            let th = document.createElement('th');
+            th.setAttribute('scope','col');
+            th.innerHTML = Object.values(avion)[i];
+            tr.appendChild(th);
+            tr.appendChild(bn);
+        }
+        tabla.appendChild(tr);
+       // tabla.appendChild(bn);
+        contador++;
+    }
+}
+
+
+function inicioSeleccion(){
     sessionStorage.removeItem('despacho');
     sessionStorage.removeItem('seleccionado');
     sessionStorage.removeItem('equipaje');
@@ -43,44 +82,6 @@ function elegirAeronave(){
         })
     });
 }
-
-/*CARGA Y MUESTRA EN EL DOM LA TABLA DE AERONAVES.*/ 
-function muestraHome(){
-    flota.classList.remove('d-none');
-    /*CARGO LAS AERONAVES POR DEFECTO */
-    aeronaves.push(C172);
-    aeronaves.push(C206);
-    aeronaves.push(PA11);
-    /*CARGO LAS AERONAVES EN LOCALSTORE*/
-    let qtySaved = localStorage.length;
-    for (let i=0; i< qtySaved; i++){
-        let av = JSON.parse(localStorage.getItem('avion_'+i))
-        aeronaves.push(av);
-    }
-    tabla.innerHTML=""; //limpio la tabla
-    let contador=1;
-    for(const avion of aeronaves) {
-        let index = document.createElement('th');
-        index.setAttribute('scope','col');
-        index.innerHTML=contador;
-        let tr = document.createElement('tr');
-        let bn = document.createElement('button');
-        bn.textContent='Seleccionar';
-        bn.classList.add('btn','btn-primary','d-none');
-        bn.setAttribute('id','seleccion_'+contador);
-        tr.appendChild(index);
-        for(let i=0;i<Object.keys(avion).length;i++){
-            let th = document.createElement('th');
-            th.setAttribute('scope','col');
-            th.innerHTML = Object.values(avion)[i];
-            tr.appendChild(th);
-        }
-        tabla.appendChild(tr);
-        tabla.appendChild(bn);
-        contador++;
-    }
-}
-
 function checkAeronave(){ // Realiza el calculo de peso total y controla cuanto remane para combustible.
     let avion = sessionStorage.getItem('seleccionado');
     let despacho = sessionStorage.getItem('despacho');
@@ -106,14 +107,12 @@ function checkAeronave(){ // Realiza el calculo de peso total y controla cuanto 
     //cierro el modal
     modal.hide();
     
-    
     function showOverWeight(){
         resultado.innerHTML = `<h4 class="bolder">Con un total de : ${truncaDosDecimales(total + avion.ew)} kgr, se supera el peso maximo de despegue de: ${avion.mtow} kgr</h4>
                                <p class="text-end">Resumen: Peso pasajeros: ${totalPax} kgr </p>
                                <p class="text-end">Peso equipaje: ${parseFloat(equipaje)} kgr</p>`;
 
     }
-    
     function showWeight(){
         let fuel = (avion.mtow-avion.ew-total)*1.70/3.8 // Convierto peso de combustible a galones de combustible
         if(fuel > avion.maxfuel){
@@ -124,5 +123,10 @@ function checkAeronave(){ // Realiza el calculo de peso total y controla cuanto 
             resultado.innerHTML= `Con ${truncaDosDecimales(fuel)} galones, puede volar: ${truncaDosDecimales(fuel/avion.gph)} horas`;
         }
     }
+}
+function truncaDosDecimales(valor){
+    let resultado = 100*valor;
+    resultado = Math.floor(resultado)/100;
+    return resultado;
 }
 

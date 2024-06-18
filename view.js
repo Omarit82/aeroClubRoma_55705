@@ -48,6 +48,7 @@ function formJs(avion){
             nameT.classList.toggle('d-none');
         });
     }
+    //FILAS DE LOS PASAJEROS
     pax.innerHTML = "";
     pax.appendChild(tituloPax);
     for(let i=1;i<=paxMaxima;i++){
@@ -80,6 +81,7 @@ function formJs(avion){
             nameP.classList.toggle('d-none');
         });
     }
+    //EQUIPAJE
     equipaje.innerHTML="";
     equipaje.appendChild(tituloEquipaje);
     const pesoE = document.createElement('input');

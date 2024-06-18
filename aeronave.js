@@ -1,4 +1,7 @@
+///CREACION DE UNA AERONAVE DESDE EL FORM
+
 const formNuevaAeronave = document.getElementById('nuevaAeronave');
+
 formNuevaAeronave.addEventListener('submit',(e)=>{
     e.preventDefault();
     const informacion = new FormData(formNuevaAeronave);
