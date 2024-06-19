@@ -18,10 +18,22 @@ function muestraHome(){
         index.setAttribute('scope','col');
         index.innerHTML=contador;
         let tr = document.createElement('tr');
+        //boton de seleccion inicialmente invisible
         let bn = document.createElement('button');
         bn.textContent='Seleccionar';
         bn.classList.add('btn','btn-primary','d-none');
         bn.setAttribute('id','seleccion_'+contador);
+        //boton de erase inicialmente visible
+        let bnErase = document.createElement('button');
+        bnErase.setAttribute('class','erase');
+        bnErase.setAttribute('id','erase_'+contador);
+        let imgErase = document.createElement('img');
+        imgErase.setAttribute('src','./assets/img/not.png');
+        bnErase.appendChild(imgErase);
+        bnErase.style.border = 'none';
+        bnErase.addEventListener('click',()=>{
+            erase(bnErase.id);
+        });
         tr.appendChild(index);
         for(let i=0;i<Object.keys(avion).length;i++){
             let th = document.createElement('th');
@@ -29,6 +41,7 @@ function muestraHome(){
             th.innerHTML = Object.values(avion)[i];
             tr.appendChild(th);
             tr.appendChild(bn);
+            tr.appendChild(bnErase);
         }
         tabla.appendChild(tr);
        // tabla.appendChild(bn);
@@ -36,7 +49,34 @@ function muestraHome(){
     }
 }
 
+function erase(id){
+    let ident = id.split('_');
+    (parseInt(ident[1]) <= 3) ?  alertaEraseDefault() : eraseAvion(parseInt(ident[1]));
+    function alertaEraseDefault(){
+        Swal.fire({
+            icon: "error",
+            title: "No pueden eliminarse las aeronaves por defecto",
+            footer: '<a href="index.html">HOME</a>',
+            timer: 3000
+        });
+    }
+    function eraseAvion(index){
+        index = index-4;
+        console.log('avion_'+index);
+        localStorage.removeItem('avion_'+index);
+        Swal.fire({
+            icon: "success",
+            title: "Aeronave Eliminada!",
+            footer: '<a href="index.html">HOME</a>',
+            timer: 3000
+        });
+        setTimeout(() => {
+            window.location.assign('index.html');
+        }, 4000);
+    }
+}
 
+/******CAPTURA DE FORMULARIO DE CARGA DE LA AERONAVE************/
 function inicioSeleccion(){
     sessionStorage.removeItem('despacho');
     sessionStorage.removeItem('seleccionado');
@@ -67,6 +107,11 @@ function inicioSeleccion(){
 /*OCULTA EL MENU Y AGREGA UN BOTON DE SELECCION A CADA AERONAVE. */
 function elegirAeronave(){
     //oculto el menu y agrego un boton de seleccion a cada aeronave existente.
+    //ademas remuevo el boton eliminar.
+    const botonesErase = document.querySelectorAll('.erase');
+    botonesErase.forEach(element => {
+        element.classList.add('d-none');
+    });
     contenedor.classList.add('d-none');
     const btns = document.querySelectorAll('.btn-primary');
     btns.forEach(element => {
