@@ -31,6 +31,8 @@ function formJs(avion){
         pesoT.setAttribute('type','number');
         pesoT.setAttribute('name','peso')
         pesoT.setAttribute('placeholder','PESO TRIPULANTE '+i);
+        pesoT.setAttribute('min','0');
+        pesoT.setAttribute('step','0.1');
         pesoT.classList.add('d-none','m-1');
         const seat = document.createElement('img');
         const boton = document.createElement('button');
@@ -65,6 +67,8 @@ function formJs(avion){
         pesoP.setAttribute('placeholder','PESO PASAJERO '+i);
         pesoP.setAttribute('name','peso');
         pesoP.classList.add('d-none','m-1');
+        pesoP.setAttribute('min','0');
+        pesoP.setAttribute('step','0.1');
         const seat = document.createElement('img');
         const boton = document.createElement('button');
         boton.appendChild(seat);

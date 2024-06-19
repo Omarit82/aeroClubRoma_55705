@@ -5,6 +5,7 @@ y si es posible cargar la aeronave con ese peso sin superar el peso maximo de de
 */
 
 /*MUESTRA LAS AERONAVES CARGADAS EN LA TABLA DEL DOM */
+
 muestraHome();
 inicioSeleccion();
 

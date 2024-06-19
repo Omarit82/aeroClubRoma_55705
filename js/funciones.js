@@ -6,10 +6,11 @@ function muestraHome(){
     aeronaves.push(C206);
     aeronaves.push(PA11);
     /*CARGO LAS AERONAVES EN LOCALSTORE*/
-    let qtySaved = localStorage.length;
-    for (let i=0; i< qtySaved; i++){
-        let av = JSON.parse(localStorage.getItem('avion_'+i))
-        aeronaves.push(av);
+    let av = JSON.parse(localStorage.getItem('aeronavesLS'));
+    if(av !== null){
+        for (const item of av) {
+            aeronaves.push(JSON.parse(item));
+        }
     }
     tabla.innerHTML=""; //limpio la tabla
     let contador=1;
@@ -44,11 +45,9 @@ function muestraHome(){
             tr.appendChild(bnErase);
         }
         tabla.appendChild(tr);
-       // tabla.appendChild(bn);
         contador++;
     }
 }
-
 function erase(id){
     let ident = id.split('_');
     (parseInt(ident[1]) <= 3) ?  alertaEraseDefault() : eraseAvion(parseInt(ident[1]));
@@ -62,8 +61,9 @@ function erase(id){
     }
     function eraseAvion(index){
         index = index-4;
-        console.log('avion_'+index);
-        localStorage.removeItem('avion_'+index);
+        let hangar =JSON.parse(localStorage.getItem('aeronavesLS'));
+        hangar = hangar.filter((_,i)=> i !== index);
+        localStorage.setItem('aeronavesLS',JSON.stringify(hangar));
         Swal.fire({
             icon: "success",
             title: "Aeronave Eliminada!",
@@ -72,12 +72,12 @@ function erase(id){
         });
         setTimeout(() => {
             window.location.assign('index.html');
-        }, 4000);
+        }, 3500);
     }
 }
-
 /******CAPTURA DE FORMULARIO DE CARGA DE LA AERONAVE************/
 function inicioSeleccion(){
+    //Utilizo SessionStorage porque, aunque la info no es sensible. No quiero que persista 
     sessionStorage.removeItem('despacho');
     sessionStorage.removeItem('seleccionado');
     sessionStorage.removeItem('equipaje');
@@ -88,7 +88,7 @@ function inicioSeleccion(){
     formulario.addEventListener('submit',(e)=>{
         e.preventDefault();
         const form = new FormData(formulario);
-        console.log(form);
+        //Analizo si todos los pasajeros ingresados tienen un peso asignado
         const nombres = form.getAll('nombre');
         const pesos = form.getAll('peso');
         for(let i=0;i<nombres.length;i++){
@@ -136,9 +136,12 @@ function checkAeronave(){ // Realiza el calculo de peso total y controla cuanto 
     equipaje = JSON.parse(equipaje);
     // SE CONSIDERA 0 EL PESO DE CUALQUIER PASAJERO O TRIPULANTE SIN NOMBRE
     for (const pax of despacho) {
-        if(pax.nombre === ""){
+        if((pax.nombre === "")||((pax.nombre !=="")&&(pax.peso === ""))){
             pax.peso = 0;
         }
+    }
+    if(equipaje === ""){
+        equipaje = 0;
     }
     let totalPax = despacho.reduce((acumulador, persona) => acumulador + parseFloat(persona.peso), 0);
     let total = totalPax + parseFloat(equipaje);
@@ -155,17 +158,22 @@ function checkAeronave(){ // Realiza el calculo de peso total y controla cuanto 
     function showOverWeight(){
         resultado.innerHTML = `<h4 class="bolder">Con un total de : ${truncaDosDecimales(total + avion.ew)} kgr, se supera el peso maximo de despegue de: ${avion.mtow} kgr</h4>
                                <p class="text-end">Resumen: Peso pasajeros: ${totalPax} kgr </p>
-                               <p class="text-end">Peso equipaje: ${parseFloat(equipaje)} kgr</p>`;
+                               <p class="text-end">Peso equipaje: ${parseFloat(equipaje)} kgr</p>
+                               <a href="index.html"><button class="btn btn-info">Volver al Home</button></a>`;
 
     }
     function showWeight(){
         let fuel = (avion.mtow-avion.ew-total)*1.70/3.8 // Convierto peso de combustible a galones de combustible
         if(fuel > avion.maxfuel){
-            resultado.innerHTML= `<h4 class="">Con ${truncaDosDecimales(avion.maxfuel)} galones, puede volar: ${truncaDosDecimales(avion.maxfuel/avion.gph)} horas | Puede completar el tanque</h4>
+            resultado.innerHTML= `<h4 class="bolder">Con ${truncaDosDecimales(avion.maxfuel)} galones, puede volar: ${truncaDosDecimales(avion.maxfuel/avion.gph)} horas | Puede completar el tanque</h4>
                                     <p class="text-end">Resumen: Peso pasajeros: ${totalPax} kgr </p>
-                                    <p class="text-end">Peso equipaje: ${parseFloat(equipaje)} kgr</p>`;
+                                    <p class="text-end">Peso equipaje: ${parseFloat(equipaje)} kgr</p>
+                                    <a href="index.html"><button class="btn btn-info">Volver al Home</button></a>`;
         }else{
-            resultado.innerHTML= `Con ${truncaDosDecimales(fuel)} galones, puede volar: ${truncaDosDecimales(fuel/avion.gph)} horas`;
+            resultado.innerHTML= `<h4 class="bolder">Con ${truncaDosDecimales(fuel)} galones, puede volar: ${truncaDosDecimales(fuel/avion.gph)} horas</h4>
+                                    <p class="text-end">Resumen: Peso pasajeros: ${totalPax} kgr </p>
+                                    <p class="text-end">Peso equipaje: ${parseFloat(equipaje)} kgr</p>                     
+                                    <a href="index.html"><button class="btn btn-info">Volver al Home</button></a>`;
         }
     }
 }
