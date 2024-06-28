@@ -1,0 +1,29 @@
+[
+    {
+        "nombre":"Cessna 172",
+        "tripulacion":2,
+        "pax":2,
+        "gph":7.2,
+        "mtow": 1050,
+        "ew":645,
+        "maxfuel":43
+    },
+    {
+        "nombre":"Cessna 206",
+        "tripulacion":2,
+        "pax":4,
+        "gph":19.2,
+        "mtow": 1600,
+        "ew":876,
+        "maxfuel":92
+    },
+    {
+        "nombre":"Piper PA-11",
+        "tripulacion":1,
+        "pax":1,
+        "gph":4,
+        "mtow": 554,
+        "ew":340,
+        "maxfuel":15
+    }
+]
