@@ -266,30 +266,35 @@ async function aeropuertosApi(origen, destino){
     console.log(segundaConsulta);
     const resultado = document.querySelector('.resultado');
     //creo una lista con los aeropuertos de destino y arribo con un checkbox?
-    const subtitulo1 = document.createElement('h4');
-    subtitulo1.innerHTML ='Aeropuerto de Partida:'
-    const ul = document.createElement('ul');
-    if(primeraConsulta.length > 1){
-        let contador=0;
-        for (const partida of primeraConsulta) {
-            console.log(partida.icao);
+    
+    function analizaConsulta(consulta,texto){
+        const subtitulo1 = document.createElement('h4');
+        subtitulo1.innerHTML = texto;
+        const ul = document.createElement('ul');
+        ul.classList.add('list-group');
+        if(consulta.length > 1){
+            let contador=0;
+            for (const partida of consulta) {
+                console.log(partida.icao);
+                const li = document.createElement('li');
+                li.classList.add('d-flex','justify-content-between','list-group-item');
+                li.innerHTML = `Icao: ${partida.icao} |Nombre: ${partida.name} |Elevacion(ft): ${partida.elevation_ft}
+                                <button id="seleccion_consulta_${contador}" class="btn w-25 btn-info m-2">Seleccionar</button>`;
+                ul.appendChild(li);
+                contador++;
+            }
+        }else{
             const li = document.createElement('li');
-            li.classList.add('d-flex','justify-content-between');
-            li.innerHTML = `${partida.icao} | ${partida.name} | ${partida.elevation_ft}
-                            <button id="seleccion_partida_${contador}" class="btn w-25 btn-info m-2">Seleccionar</button>`;
+            li.classList.add('d-flex','justify-content-between','list-group-item');
+            li.innerHTML = `Icao: ${consulta[0].icao} |Nombre: ${consulta[0].name} |Elevacion(ft): ${consulta[0].elevation_ft}
+                            <button id="seleccion_consulta" class="btn w-25 btn-info m-2">Seleccionar</button>`;
             ul.appendChild(li);
-            contador++;
         }
-    }else{
-        const li = document.createElement('li');
-        li.classList.add('d-flex','justify-content-between');
-        li.innerHTML = `${partida.icao} | ${partida.name}
-                        <button id="seleccion_partida" class="btn w-25 btn-info m-2">Seleccionar</button>`;
-        ul.appendChild(li);
+        resultado.appendChild(subtitulo1)
+        resultado.appendChild(ul);
     }
-    resultado.appendChild(subtitulo1)
-    resultado.appendChild(ul);
-
+    analizaConsulta(primeraConsulta,'Aeropuerto de partida: ');
+    analizaConsulta(segundaConsulta,'Aeropuerto de arribo: ');
 }
 
 function truncaDosDecimales(valor){
