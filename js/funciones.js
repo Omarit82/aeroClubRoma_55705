@@ -1,53 +1,73 @@
 /*CARGA Y MUESTRA EN EL DOM LA TABLA DE AERONAVES.*/ 
 function muestraHome(){
     flota.classList.remove('d-none');
-    /*CARGO LAS AERONAVES POR DEFECTO */
-    aeronaves.push(C172);
-    aeronaves.push(C206);
-    aeronaves.push(PA11);
-    /*CARGO LAS AERONAVES EN LOCALSTORE*/
-    let av = JSON.parse(localStorage.getItem('aeronavesLS'));
-    if(av !== null){
-        for (const item of av) {
-            aeronaves.push(JSON.parse(item));
+    /*CARGO LAS AERONAVES POR DEFECTO DESDE EL ARCHIVO aeronaves.json Y LOS GUARDO EN EL LOCAL STORAGE.*/
+    const avionesJson = async function fetchAviones(){
+        try {
+            const response = await fetch('https://66804c6456c2c76b495bb799.mockapi.io/aeronaves/aviones');
+            if (response.ok){
+                let data = await response.json();
+                for (const avion of data) {
+                    aeronaves.push(avion);
+                }
+                loadAeronavesLocalStorage(aeronaves);
+            }
+        } catch (error) {
+            Swal.fire(
+                'Aviso',
+                'Error en el fetch al JSON',
+                'error'
+            )
         }
     }
-    tabla.innerHTML=""; //limpio la tabla
-    let contador=1;
-    for(const avion of aeronaves) {
-        let index = document.createElement('th');
-        index.setAttribute('scope','col');
-        index.innerHTML=contador;
-        let tr = document.createElement('tr');
-        //boton de seleccion inicialmente invisible
-        let bn = document.createElement('button');
-        bn.textContent='Seleccionar';
-        bn.classList.add('btn','btn-primary','d-none');
-        bn.setAttribute('id','seleccion_'+contador);
-        //boton de erase inicialmente visible
-        let bnErase = document.createElement('button');
-        bnErase.setAttribute('class','erase');
-        bnErase.setAttribute('id','erase_'+contador);
-        let imgErase = document.createElement('img');
-        imgErase.setAttribute('src','./assets/img/not.png');
-        bnErase.appendChild(imgErase);
-        bnErase.style.border = 'none';
-        bnErase.addEventListener('click',()=>{
-            erase(bnErase.id);
-        });
-        tr.appendChild(index);
-        for(let i=0;i<Object.keys(avion).length;i++){
-            let th = document.createElement('th');
-            th.setAttribute('scope','col');
-            th.innerHTML = Object.values(avion)[i];
-            tr.appendChild(th);
-            tr.appendChild(bn);
-            tr.appendChild(bnErase);
+    avionesJson();
+    function loadAeronavesLocalStorage(aviones){
+            /*CARGO LAS AERONAVES EN LOCALSTORE*/
+        let av = JSON.parse(localStorage.getItem('aeronavesLS'));
+        if(av !== null){
+            for (const item of av) {
+                aeronaves.push(JSON.parse(item));
+            }
         }
-        tabla.appendChild(tr);
-        contador++;
+        tabla.innerHTML=""; //limpio la tabla
+        let contador=1;
+        for(const avion of aviones) {
+            let index = document.createElement('th');
+            index.setAttribute('scope','col');
+            index.innerHTML=contador;
+            let tr = document.createElement('tr');
+            //boton de seleccion inicialmente invisible
+            let bn = document.createElement('button');
+            bn.textContent='Seleccionar';
+            bn.classList.add('btn','btn-primary','d-none');
+            bn.setAttribute('id','seleccion_'+contador);
+            //boton de erase inicialmente visible
+            let bnErase = document.createElement('button');
+            bnErase.setAttribute('class','erase');
+            bnErase.setAttribute('id','erase_'+contador);
+            let imgErase = document.createElement('img');
+            imgErase.setAttribute('src','./assets/img/not.png');
+            bnErase.appendChild(imgErase);
+            bnErase.style.border = 'none';
+            bnErase.addEventListener('click',()=>{
+                erase(bnErase.id);
+            });
+            tr.appendChild(index);
+            for(let i=0;i<Object.keys(avion).length;i++){
+                let th = document.createElement('th');
+                th.setAttribute('scope','col');
+                th.innerHTML = Object.values(avion)[i];
+                tr.appendChild(th);
+                tr.appendChild(bn);
+                tr.appendChild(bnErase);
+            }
+            tabla.appendChild(tr);
+            contador++;
+        }
     }
+    
 }
+
 function erase(id){
     let ident = id.split('_');
     (parseInt(ident[1]) <= 3) ?  alertaEraseDefault() : eraseAvion(parseInt(ident[1]));
@@ -154,12 +174,51 @@ function checkAeronave(){ // Realiza el calculo de peso total y controla cuanto 
     flota.classList.add('d-none');
     //cierro el modal
     modal.hide();
+    //aplico funcionalidad al boton de precomputada
+    document.querySelector('.precomp').addEventListener('click',()=>{
+        //creamos el formulario
+        const formulario = document.createElement('form');
+        formulario.classList.add('card','m-2');
+        //creamos el titulo
+        const indicaciones = document.createElement('h3');
+        indicaciones.innerHTML = 'Ingrese el aeropuerto/ciudad de partida y el aeropuerto/ciudad de llegada';
+        //creamos el casillero para insertar el aeropuerto de origen -- de donde parte el vuelo
+        const origen = document.createElement('input');
+        origen.setAttribute('name','origen');
+        origen.setAttribute('type','text');
+        origen.setAttribute('placeholder','ORIGEN / PARTIDA');
+        origen.classList.add('w-50','m-auto','mt-5','mb-2');
+        //creamos el casillero para insertar el aeropuerto de arrivo
+        const destino = document.createElement('input');
+        destino.setAttribute('name','destino')
+        destino.setAttribute('type','text');
+        destino.setAttribute('placeholder','DESTINO / ARRIVO');
+        destino.classList.add('w-50','m-auto','mt-2','mb-2');
+        const envio = document.createElement('button');
+        envio.classList.add('w-50','m-auto','btn','btn-success','mb-5');
+        envio.setAttribute('type','submit');
+        envio.innerHTML ='Consultar!';
+        formulario.appendChild(indicaciones);
+        formulario.appendChild(origen);
+        formulario.appendChild(destino);
+        formulario.appendChild(envio);
+        resultado.appendChild(formulario);
+
+        formulario.addEventListener('submit',(evento)=>{
+            evento.preventDefault();
+            //capturo la informacion del formulario!
+            const info = new FormData(formulario);
+            //le paso la info a una funciona asincronica que consulta a una api por los aeropuertos y devuelve la info para imprimir
+            aeropuertosApi(info.get('origen'),info.get('destino'));
+        })
+    })
     
     function showOverWeight(){
         resultado.innerHTML = `<h4 class="bolder">Con un total de : ${truncaDosDecimales(total + avion.ew)} kgr, se supera el peso maximo de despegue de: ${avion.mtow} kgr</h4>
                                <p class="text-end">Resumen: Peso pasajeros: ${totalPax} kgr </p>
                                <p class="text-end">Peso equipaje: ${parseFloat(equipaje)} kgr</p>
-                               <a href="index.html"><button class="btn btn-info">Volver al Home</button></a>`;
+                               <a href="index.html"><button class="btn btn-info">Volver al Home</button></a>
+                               <button class="btn btn-success precomp w-50 m-auto mt-2">Acceder a Precomputada</button>`;
 
     }
     function showWeight(){
@@ -168,15 +227,71 @@ function checkAeronave(){ // Realiza el calculo de peso total y controla cuanto 
             resultado.innerHTML= `<h4 class="bolder">Con ${truncaDosDecimales(avion.maxfuel)} galones, puede volar: ${truncaDosDecimales(avion.maxfuel/avion.gph)} horas | Puede completar el tanque</h4>
                                     <p class="text-end">Resumen: Peso pasajeros: ${totalPax} kgr </p>
                                     <p class="text-end">Peso equipaje: ${parseFloat(equipaje)} kgr</p>
-                                    <a href="index.html"><button class="btn btn-info">Volver al Home</button></a>`;
+                                    <a href="index.html"><button class="btn btn-info">Volver al Home</button></a>
+                                    <button class="btn btn-success precomp w-50 m-auto mt-2">Acceder a Precomputada</button>`;
         }else{
             resultado.innerHTML= `<h4 class="bolder">Con ${truncaDosDecimales(fuel)} galones, puede volar: ${truncaDosDecimales(fuel/avion.gph)} horas</h4>
                                     <p class="text-end">Resumen: Peso pasajeros: ${totalPax} kgr </p>
                                     <p class="text-end">Peso equipaje: ${parseFloat(equipaje)} kgr</p>                     
-                                    <a href="index.html"><button class="btn btn-info">Volver al Home</button></a>`;
+                                    <a href="index.html"><button class="btn btn-info">Volver al Home</button></a>
+                                    <button class="btn btn-success precomp w-50 m-auto mt-2">Acceder a Precomputada</button>`;
         }
     }
+    
 }
+
+async function aeropuertosApi(origen, destino){
+    const url1 = 'https://api.api-ninjas.com/v1/airports?city='+origen;
+    const url2 = 'https://api.api-ninjas.com/v1/airports?city='+destino;
+    const consulta1 = await fetch(url1,{
+        method: 'get',
+        headers: {
+            'X-Api-Key': 'ZcQlRSHpI86oCTxDmvbG/Q==6UYm4cSJQc4jOvFC',
+            'Content-Type': 'application/json'
+          },
+        body: JSON.stringify() 
+    });
+    const primeraConsulta = await consulta1.json();
+    
+    const consulta2 = await fetch(url2,{
+        method:'get',
+        headers: {
+            'X-Api-Key': 'ZcQlRSHpI86oCTxDmvbG/Q==6UYm4cSJQc4jOvFC',
+            'Content-Type': 'application/json'
+          },
+        body: JSON.stringify()
+    });
+    const segundaConsulta = await consulta2.json();
+    console.log(primeraConsulta);
+    console.log(segundaConsulta);
+    const resultado = document.querySelector('.resultado');
+    //creo una lista con los aeropuertos de destino y arribo con un checkbox?
+    const subtitulo1 = document.createElement('h4');
+    subtitulo1.innerHTML ='Aeropuerto de Partida:'
+    const ul = document.createElement('ul');
+    if(primeraConsulta.length > 1){
+        let contador=0;
+        for (const partida of primeraConsulta) {
+            console.log(partida.icao);
+            const li = document.createElement('li');
+            li.classList.add('d-flex','justify-content-between');
+            li.innerHTML = `${partida.icao} | ${partida.name} | ${partida.elevation_ft}
+                            <button id="seleccion_partida_${contador}" class="btn w-25 btn-info m-2">Seleccionar</button>`;
+            ul.appendChild(li);
+            contador++;
+        }
+    }else{
+        const li = document.createElement('li');
+        li.classList.add('d-flex','justify-content-between');
+        li.innerHTML = `${partida.icao} | ${partida.name}
+                        <button id="seleccion_partida" class="btn w-25 btn-info m-2">Seleccionar</button>`;
+        ul.appendChild(li);
+    }
+    resultado.appendChild(subtitulo1)
+    resultado.appendChild(ul);
+
+}
+
 function truncaDosDecimales(valor){
     let resultado = 100*valor;
     resultado = Math.floor(resultado)/100;
