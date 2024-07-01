@@ -147,6 +147,7 @@ function elegirAeronave(){
         })
     });
 }
+
 function checkAeronave(){ // Realiza el calculo de peso total y controla cuanto remane para combustible.
     let avion = sessionStorage.getItem('seleccionado');
     let despacho = sessionStorage.getItem('despacho');
@@ -252,7 +253,6 @@ async function aeropuertosApi(origen, destino){
         body: JSON.stringify() 
     });
     const primeraConsulta = await consulta1.json();
-    
     const consulta2 = await fetch(url2,{
         method:'get',
         headers: {
@@ -262,39 +262,60 @@ async function aeropuertosApi(origen, destino){
         body: JSON.stringify()
     });
     const segundaConsulta = await consulta2.json();
-    console.log(primeraConsulta);
-    console.log(segundaConsulta);
-    const resultado = document.querySelector('.resultado');
-    //creo una lista con los aeropuertos de destino y arribo con un checkbox?
-    
-    function analizaConsulta(consulta,texto){
-        const subtitulo1 = document.createElement('h4');
-        subtitulo1.innerHTML = texto;
-        const ul = document.createElement('ul');
-        ul.classList.add('list-group');
-        if(consulta.length > 1){
-            let contador=0;
-            for (const partida of consulta) {
-                console.log(partida.icao);
-                const li = document.createElement('li');
-                li.classList.add('d-flex','justify-content-between','list-group-item');
-                li.innerHTML = `Icao: ${partida.icao} |Nombre: ${partida.name} |Elevacion(ft): ${partida.elevation_ft}
-                                <button id="seleccion_consulta_${contador}" class="btn w-25 btn-info m-2">Seleccionar</button>`;
-                ul.appendChild(li);
-                contador++;
-            }
-        }else{
+    precomputada.classList.remove('d-none');
+    precomputada.innerHTML="";
+    //creo una lista con los aeropuertos de destino y arribo
+    analizaConsulta(primeraConsulta,'Aeropuerto de partida :');
+    analizaConsulta(segundaConsulta,'Aeropuerto de arribo :');
+    precomputada.scrollIntoView({ behavior: "smooth" });
+    seleccionAeropuertos(primeraConsulta,segundaConsulta);
+}
+
+
+function analizaConsulta(consulta,texto){
+    const identificador = texto.split(" ");
+    const subtitulo1 = document.createElement('h4');
+    subtitulo1.innerHTML = texto;
+    const ul = document.createElement('ul');
+    ul.classList.add('list-group');
+    if(consulta.length > 1){
+        let contador=0;
+        for (const partida of consulta) {
             const li = document.createElement('li');
             li.classList.add('d-flex','justify-content-between','list-group-item');
-            li.innerHTML = `Icao: ${consulta[0].icao} |Nombre: ${consulta[0].name} |Elevacion(ft): ${consulta[0].elevation_ft}
-                            <button id="seleccion_consulta" class="btn w-25 btn-info m-2">Seleccionar</button>`;
+            li.innerHTML = `Icao: ${partida.icao} |Nombre: ${partida.name} |Elevacion(ft): ${partida.elevation_ft}
+                            <button class="${identificador[2]} btn w-25 btn-info m-2">Seleccionar</button>`;
             ul.appendChild(li);
+            contador++;
         }
-        resultado.appendChild(subtitulo1)
-        resultado.appendChild(ul);
+    }else{
+        const li = document.createElement('li');
+        li.classList.add('d-flex','justify-content-between','list-group-item');
+        li.innerHTML = `Icao: ${consulta[0].icao} |Nombre: ${consulta[0].name} |Elevacion(ft): ${consulta[0].elevation_ft}
+                        <button class="${identificador[2]} btn w-25 btn-info m-2">Seleccionar</button>`;
+        ul.appendChild(li);
     }
-    analizaConsulta(primeraConsulta,'Aeropuerto de partida: ');
-    analizaConsulta(segundaConsulta,'Aeropuerto de arribo: ');
+    precomputada.appendChild(subtitulo1)
+    precomputada.appendChild(ul);
+    
+}
+
+function seleccionAeropuertos(origen,destino){
+    console.log(origen);
+    console.log(destino);
+    const origenes = document.querySelectorAll('.partida');
+    const partidas = document.querySelectorAll('.arribo');
+    for (let i=0;i<origenes.length;i++) {
+        origenes[i].addEventListener('click',()=>{
+            console.log(origen[i].icao);
+        })
+    }
+    for (let i=0;i<partidas.length;i++) {
+        partidas[i].addEventListener('click',()=>{
+            console.log(destino[i].icao);
+        })
+    }
+
 }
 
 function truncaDosDecimales(valor){

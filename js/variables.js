@@ -12,6 +12,7 @@ const eleccion = document.createElement('button'); //boton de eleccion de aerona
 const creacion = document.createElement('button'); // boton de creacion de aeronave
 const contenedor = document.createElement('div'); // contenedor de botones
 const link = document.createElement('a');
+const precomputada = document.querySelector('.precomputada');
 
 /********************MENU DE OPCIONES*******************/
 contenedor.classList.add('d-flex','justify-content-around','pb-2','pt-2','m-auto','mb-2','w-75');
