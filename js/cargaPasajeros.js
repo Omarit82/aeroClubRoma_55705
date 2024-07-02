@@ -1,20 +1,21 @@
 function formJs(avion){   
     let titulo = document.getElementById('formCargaTitle')
     titulo.innerHTML='Formulario de carga de: '+avion.nombre;
+    titulo.classList.add('m-auto');
     const primeraFila = document.getElementById('trip');
     const pax = document.getElementById('pax');
     const equipaje = document.getElementById('equipaje');
     const tituloEquipaje = document.createElement('h4');
     tituloEquipaje.innerText = 'Equipaje';
-    tituloEquipaje.classList.add('text-center');
+    tituloEquipaje.classList.add('text-center','fs-5');
     const paxMaxima = parseInt(avion.pax);
     const tripMaxima = parseInt(avion.tripulacion);
     const tituloTrip = document.createElement('h3');
-    tituloTrip.classList.add('text-center');
+    tituloTrip.classList.add('text-center','fs-5');
     tituloTrip.innerHTML = "Tripulacion";
     const tituloPax = document.createElement('h3');
     tituloPax.innerHTML = 'Pasajeros';
-    tituloPax.classList.add('text-center');
+    tituloPax.classList.add('text-center','fs-5');
     /*AGREGO UN ASIENTO POR CADA TRIPULANTE POSIBLE*/
     primeraFila.innerHTML="";
     primeraFila.appendChild(tituloTrip);
@@ -92,11 +93,11 @@ function formJs(avion){
     pesoE.setAttribute('type','number');
     pesoE.setAttribute('placeholder','PESO EQUIPAJE');
     pesoE.setAttribute('name','pesoEquipaje');
-    pesoE.classList.add('d-none','m-1','w-50');
+    pesoE.classList.add('d-none','m-1','w-75','ms-5','me-5');
     const valija = document.createElement('img');
     const btn = document.createElement('button');
     btn.appendChild(valija);
-    btn.classList.add('w-50','m-auto','btn','btn-warning');
+    btn.classList.add('w-25','m-auto','btn','btn-warning');
     valija.classList.add('p-1');
     valija.setAttribute('src','./assets/img/bag.png');
     equipaje.appendChild(btn);

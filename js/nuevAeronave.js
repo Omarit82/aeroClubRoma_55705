@@ -1,7 +1,5 @@
-///CREACION DE UNA AERONAVE DESDE EL FORM
-
 const formNuevaAeronave = document.getElementById('nuevaAeronave');
-
+///CREACION DE UNA AERONAVE DESDE EL FORM
 formNuevaAeronave.addEventListener('submit',(e)=>{
     e.preventDefault();
     const informacion = new FormData(formNuevaAeronave);
@@ -12,6 +10,7 @@ formNuevaAeronave.addEventListener('submit',(e)=>{
     });
     //Desestructuro el objeto
     const {modelo,tripulantes, pasajeros,consumo,mtow,vacio,fuel}= objeto;
+    //utilizo la clase aeronave para crear el nuevo objeto
     const nuevaAeronave = new Aeronave(modelo,tripulantes,pasajeros,consumo,mtow,vacio,fuel);
     const nueva = JSON.stringify(nuevaAeronave);
     let hangarLS = JSON.parse(localStorage.getItem('aeronavesLS'));
