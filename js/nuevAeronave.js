@@ -1,7 +1,7 @@
 const formNuevaAeronave = document.getElementById('nuevaAeronave');
 const card = document.querySelector('.card');
 card.style.backgroundColor = '#4D658D';
-card.style.color = '#051938';
+card.style.color = '#FFFFFF';
 const fondo = document.body;
 fondo.style.backgroundColor ='#051938';
 ///CREACION DE UNA AERONAVE DESDE EL FORM
@@ -34,8 +34,7 @@ formNuevaAeronave.addEventListener('submit',(e)=>{
         icon: "success",
         title: "Aeronave Guardada!",
         html: `<p> A guardado la aeronave: ${informacion.get('modelo')} en LocalStorage</p>`,
-        footer: '<a href="index.html">HOME</a>',
-        timer: 2500
+        timer: 3000
     });
     setTimeout(() => {
         window.location.assign('index.html');

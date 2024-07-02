@@ -26,6 +26,8 @@ async function aeropuertosApi(origen, destino){
     analizaConsulta(segundaConsulta,'Aeropuerto de arribo :');
     precomputada.scrollIntoView({ behavior: "smooth" });
     seleccionAeropuertos(primeraConsulta,segundaConsulta);
+    espera.removeAttribute('style');
+    espera.src="";
 }
 
 
@@ -114,6 +116,13 @@ function calculoDistancia(){
         precomputada.contains(meteo) ? precomputada.removeChild(meteo):false;
         precomputada.appendChild(clima);
         clima.addEventListener('click',()=>{
+            espera.src = '../assets/img/wait.png';
+            espera.classList.add('m-auto');
+            espera.style.position ='relative';
+            espera.style.transition ='transform 3s ease-out';
+            setTimeout(() => {
+                espera.style.transform = 'rotate(720deg)';
+            }, 100);
             consultaMeteo(origen.icao);
             consultaMeteo(destino.icao);
         });

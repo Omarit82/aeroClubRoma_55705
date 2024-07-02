@@ -58,4 +58,6 @@ function impresion(info){
     ul.appendChild(visibilidad);
     ul.appendChild(viento);
     precomputada.appendChild(ul);
+    //moverme a ul
+    ul.scrollIntoView({ behavior: "smooth" });
 }

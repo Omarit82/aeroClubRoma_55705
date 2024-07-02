@@ -51,6 +51,7 @@ function elegirAeronave(){
 }
 
 function checkAeronave(){ // Realiza el calculo de peso total y controla cuanto remane para combustible.
+    indicaciones.innerHTML='';
     let avion = sessionStorage.getItem('seleccionado');
     let despacho = sessionStorage.getItem('despacho');
     let equipaje = sessionStorage.getItem('equipaje');
@@ -84,21 +85,21 @@ function checkAeronave(){ // Realiza el calculo de peso total y controla cuanto 
         formulario.classList.add('card','m-2');
         //creamos el titulo
         const indicaciones = document.createElement('h3');
-        indicaciones.innerHTML = 'Ingrese el aeropuerto/ciudad de partida y el aeropuerto/ciudad de llegada';
+        indicaciones.innerHTML = 'Ingrese la ciudad de partida y la ciudad de llegada';
         //creamos el casillero para insertar el aeropuerto de origen -- de donde parte el vuelo
         const origen = document.createElement('input');
         origen.setAttribute('name','origen');
         origen.setAttribute('type','text');
-        origen.setAttribute('placeholder','ORIGEN / PARTIDA');
+        origen.setAttribute('placeholder','ORIGEN');
         origen.classList.add('w-50','m-auto','mt-5','mb-2');
         //creamos el casillero para insertar el aeropuerto de arrivo
         const destino = document.createElement('input');
         destino.setAttribute('name','destino')
         destino.setAttribute('type','text');
-        destino.setAttribute('placeholder','DESTINO / ARRIVO');
+        destino.setAttribute('placeholder','DESTINO');
         destino.classList.add('w-50','m-auto','mt-2','mb-2');
         const envio = document.createElement('button');
-        envio.classList.add('w-50','m-auto','btn','btn-success','mb-5');
+        envio.classList.add('w-50','m-auto','btn','btn-success','mb-2');
         envio.setAttribute('type','submit');
         envio.innerHTML ='Consultar!';
         formulario.appendChild(indicaciones);
@@ -113,6 +114,14 @@ function checkAeronave(){ // Realiza el calculo de peso total y controla cuanto 
             const info = new FormData(formulario);
             //le paso la info a una funciona asincronica que consulta a una api por los aeropuertos y devuelve la info para imprimir
             aeropuertosApi(info.get('origen'),info.get('destino'));
+            espera.src = '../assets/img/wait.png';
+            espera.classList.add('m-auto');
+            espera.style.position ='relative';
+            espera.style.transition ='transform 3s ease-out';
+            setTimeout(() => {
+                espera.style.transform = 'rotate(720deg)';
+            }, 100);
+            formulario.appendChild(espera);
         })
     })
     

@@ -76,7 +76,6 @@ function alertaEraseDefault(){
     Swal.fire({
         icon: "error",
         title: "No pueden eliminarse las aeronaves por defecto",
-        footer: '<a href="index.html">HOME</a>',
         timer: 3000
     });
 }
