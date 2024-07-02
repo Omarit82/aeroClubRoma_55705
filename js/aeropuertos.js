@@ -58,7 +58,6 @@ function analizaConsulta(consulta,texto){
 
 function seleccionAeropuertos(origen,destino){
     //TOMO TODOS LOS BOTONES PARA SELECCIONAR LOS AEROPUERTOS DE ORIGEN Y DESTINO
-    console.log(origen);
     //Le agrego a precomputada un casillero donde calculo la distancia entre los aeropuertos.
     const origenSeleccionado = document.createElement('li');
     origenSeleccionado.classList.add('list-group-item');
@@ -115,7 +114,8 @@ function calculoDistancia(){
         precomputada.contains(meteo) ? precomputada.removeChild(meteo):false;
         precomputada.appendChild(clima);
         clima.addEventListener('click',()=>{
-            consultaMeteo(origen,destino);
+            consultaMeteo(origen.icao);
+            consultaMeteo(destino.icao);
         });
         clima.scrollIntoView({ behavior: "smooth" });
     }

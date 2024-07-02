@@ -10,4 +10,6 @@ Permite tambien seleccionar los aeropuertos de partida y destino y calcular la d
 
 muestraHome();
 inicioSeleccion();
+const cuerpo = document.body;
+cuerpo.style.backgroundColor ='#4D658D';
 

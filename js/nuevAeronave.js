@@ -1,4 +1,9 @@
 const formNuevaAeronave = document.getElementById('nuevaAeronave');
+const card = document.querySelector('.card');
+card.style.backgroundColor = '#4D658D';
+card.style.color = '#051938';
+const fondo = document.body;
+fondo.style.backgroundColor ='#051938';
 ///CREACION DE UNA AERONAVE DESDE EL FORM
 formNuevaAeronave.addEventListener('submit',(e)=>{
     e.preventDefault();
@@ -16,7 +21,6 @@ formNuevaAeronave.addEventListener('submit',(e)=>{
     let hangarLS = JSON.parse(localStorage.getItem('aeronavesLS'));
     //UTILIZO EL OPERADOR NULLISH PARA CHEQUEAR SI EL ARREGLO ES NULL
     hangarLS ?? cargaInicial();
-
     function cargaInicial(){
         const aeronavesLS = [];
         localStorage.setItem('aeronavesLS',JSON.stringify(aeronavesLS));

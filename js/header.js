@@ -8,3 +8,4 @@ linkTitulo.appendChild(titulo);
 titulo.innerHTML ='Peso y Balanceo - Aero Club Roma';
 const contenedorTitulo = document.querySelector('.header_titulo');
 contenedorTitulo.appendChild(linkTitulo);
+contenedorTitulo.style.backgroundColor ='#032436';
