@@ -1,15 +1,19 @@
-/*****PAGINA DE PESO Y BALANCEO DE LA AERONAVE C172 PARA 4 PERSONAS****/
+/*****PAGINA DE AEROCLUB ROMA****/
 /*
 El script calcula a partir de los datos entregados la cantidad de combustible necesaria a cargar para realizar la navegacion 
 y si es posible cargar la aeronave con ese peso sin superar el peso maximo de despegue-
 
 Permite tambien seleccionar los aeropuertos de partida y destino y calcular la distancia entre ambos.
+
+Como tambien muestra (si existe esa informacion) la informacion meteorologica
 */
 
 /*MUESTRA LAS AERONAVES CARGADAS EN LA TABLA DEL DOM */
 
 muestraHome();
+/*INICIA LA FUNCION QUE PERMITE SELECCIONAR UNA AERONAVE */
 inicioSeleccion();
+/*ESTETICA PARA EL HOME */
 const cuerpo = document.body;
 cuerpo.style.backgroundColor ='#4D658D';
 const indicaciones = document.getElementById('indicaciones');

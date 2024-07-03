@@ -11,33 +11,16 @@
             <div class="header_titulo">
             </div>
         </header>
-        <main>
-            <div class="card w-75 m-auto p-5">
-                <h3 class="text-center">Carga de una nueva aeronave:</h3>
-                <form action="" class="d-flex flex-column w-75 m-auto" id="nuevaAeronave">
-                    <label for="modelo" class="text-center">Modelo de la aeronave</label>
-                    <input type="text" name="modelo" required>
-                    <label for="tripulantes" class="text-center">Ingrese la cantidad de tripulantes</label>
-                    <input type="number" name="tripulantes" required min="1">
-                    <label for="pasajeros" class="text-center">Ingrese la cantidad de pasajeros</label>
-                    <input type="number" name="pasajeros" required  min="0">
-                    <label for="consumo" class="text-center">Ingrese el consumo en GPH(galones por hora)</label>
-                    <input type="number" name="consumo" step="0.1" min="0" required>
-                    <label for="mtow" class="text-center">Ingrese el peso maximo de despegue en Kgr.</label>
-                    <input type="number" name="mtow" step="0.1" min="0" required>
-                    <label for="vacio" class="text-center">Ingrese el peso vacio de la aeronave</label>
-                    <input type="number" name="vacio" step="0.1" min="0" required>
-                    <label for="fuel" class="text-center">Ingrese la capacidad de combustible maxima</label>
-                    <input type="number" name="fuel" step="0.1" min="0" required>
-                    <button type="submit" class="btn btn-success m-auto mt-3 w-50 ">Guardar</button>
-                </form>
+        <main  id="main">
+            <div id="cargaAeronave" class="card w-75 m-auto p-5 mt-5">
             </div>
         </main>
-        <footer></footer>
+        <footer id="footer"></footer>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./js/header.js"></script>
     <script src="./js/clases.js"></script>
     <script src="./js/nuevAeronave.js"></script>
+    <script src="./js/footer.js"></script>
 </html>

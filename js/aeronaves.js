@@ -50,7 +50,8 @@ function elegirAeronave(){
     });
 }
 
-function checkAeronave(){ // Realiza el calculo de peso total y controla cuanto remane para combustible.
+function checkAeronave(){
+    // Realiza el calculo de peso total y controla cuanto remane para combustible.
     indicaciones.innerHTML='';
     let avion = sessionStorage.getItem('seleccionado');
     let despacho = sessionStorage.getItem('despacho');
@@ -63,10 +64,18 @@ function checkAeronave(){ // Realiza el calculo de peso total y controla cuanto 
         if((pax.nombre === "")||((pax.nombre !=="")&&(pax.peso === ""))){
             pax.peso = 0;
         }
-    }
+    };
     if(equipaje === ""){
         equipaje = 0;
-    }
+    };
+    //inserto el boton de retorno al home
+    const home = document.getElementById('home');
+    const homeButton = document.createElement('a');
+    homeButton.setAttribute('href','index.html');
+    homeButton.classList.add('btn','btn-info','m-auto');
+    homeButton.innerHTML='Volver al Home';
+    home.appendChild(homeButton);
+    /*******************************/
     let totalPax = despacho.reduce((acumulador, persona) => acumulador + parseFloat(persona.peso), 0);
     let total = totalPax + parseFloat(equipaje);
     const resultado = document.querySelector('.resultado');
@@ -122,32 +131,98 @@ function checkAeronave(){ // Realiza el calculo de peso total y controla cuanto 
                 espera.style.transform = 'rotate(720deg)';
             }, 100);
             formulario.appendChild(espera);
-        })
-    })
-    
+        });
+    })    
     function showOverWeight(){
-        resultado.innerHTML = `<h4 class="bolder">Con un total de : ${truncaDosDecimales(total + avion.ew)} kgr, se supera el peso maximo de despegue de: ${avion.mtow} kgr</h4>
-                               <p class="text-end">Resumen: Peso pasajeros: ${totalPax} kgr </p>
-                               <p class="text-end">Peso equipaje: ${parseFloat(equipaje)} kgr</p>
-                               <a href="index.html"><button class="btn btn-info">Volver al Home</button></a>
-                               <button class="btn btn-success precomp w-50 m-auto mt-2">Acceder a Precomputada</button>`;
-
+        resultado.innerHTML = `<h4 class="fs-5">Con un total de : ${truncaDosDecimales(total + avion.ew)} kgr, se supera el peso maximo de despegue de: ${avion.mtow} kgr</h4>
+                                <div class="d-flex">
+                                    <ul class="col-6 list-group">
+                                        <li class="text-start list-group-item">Modelo: ${avion.nombre}</li>
+                                        <li class="text-start list-group-item">Maximo peso: ${avion.mtow}</li>
+                                        <li class="text-start list-group-item">Peso vacio: ${avion.ew}</li>
+                                        <li class="text-start list-group-item">Maximo fuel: ${avion.maxfuel}</li>
+                                    </ul>
+                                    <ul class="col-6 list-group">
+                                        <li class="text-start list-group-item">Peso pasajeros: ${totalPax} kgr </li>
+                                        <li class="text-start list-group-item">Peso equipaje: ${parseFloat(equipaje)} kgr</li>
+                                    </ul>
+                                </div>
+                                `;
+        //Agrego informacion del despacho
+        const unorderList = document.createElement('ul');
+        unorderList.classList.add('list-group');
+        const btnPre = document.createElement('button');
+        btnPre.classList.add('btn','btn-success','precomp','w-50','m-auto','mt-2');
+        btnPre.innerHTML='Acceder a Precomputada';
+        for (const it of despacho) {
+            const item = document.createElement('li');
+            item.classList.add('list-group-item','d-flex','justify-content-center');
+            item.innerHTML=`Nombre: ${it.nombre} - Peso: ${it.peso}`;
+            unorderList.appendChild(item);
+        };
+        resultado.appendChild(unorderList);
+        resultado.appendChild(btnPre);
     }
     function showWeight(){
         let fuel = (avion.mtow-avion.ew-total)*1.70/3.8 // Convierto peso de combustible a galones de combustible
         if(fuel > avion.maxfuel){
-            resultado.innerHTML= `<h4 class="bolder">Con ${truncaDosDecimales(avion.maxfuel)} galones, puede volar: ${truncaDosDecimales(avion.maxfuel/avion.gph)} horas | Puede completar el tanque</h4>
-                                    <p class="text-end">Resumen: Peso pasajeros: ${totalPax} kgr </p>
-                                    <p class="text-end">Peso equipaje: ${parseFloat(equipaje)} kgr</p>
-                                    <a href="index.html"><button class="btn btn-info">Volver al Home</button></a>
-                                    <button class="btn btn-success precomp w-50 m-auto mt-2">Acceder a Precomputada</button>`;
+            resultado.innerHTML= `<h4 class="fs-5">Con ${truncaDosDecimales(avion.maxfuel)} galones, puede volar: ${truncaDosDecimales(avion.maxfuel/avion.gph)} horas | Puede completar el tanque</h4>
+                                    <div class="d-flex">
+                                        <ul class="list-group col-6">
+                                            <li class="text-start list-group-item">Modelo: ${avion.nombre}</li>
+                                            <li class="text-start list-group-item">Maximo peso: ${avion.mtow}</li>
+                                            <li class="text-start list-group-item">Peso vacio: ${avion.ew}</li>
+                                            <li class="text-start list-group-item">Maximo fuel: ${avion.maxfuel}</li>
+                                        </ul>
+                                        <ul class="col-6 list-group">
+                                            <li class="text-start list-group-item">Peso pasajeros: ${totalPax} kgr </li>
+                                            <li class="text-start list-group-item">Peso equipaje: ${parseFloat(equipaje)} kgr</li>
+                                        </ul>
+                                    </div>`;
+            //Agrego informacion del despacho
+            const unorderList = document.createElement('ul');
+            unorderList.classList.add('list-group');
+            const btnPre = document.createElement('button');
+            btnPre.classList.add('btn','btn-success','precomp','w-50','m-auto','mt-2');
+            btnPre.innerHTML='Acceder a Precomputada';
+            for (const it of despacho) {
+                const item = document.createElement('li');
+                item.classList.add('list-group-item','d-flex','justify-content-center');
+                item.innerHTML=`Nombre: ${it.nombre} - Peso: ${it.peso}`;
+                unorderList.appendChild(item);
+            };
+            resultado.appendChild(unorderList);
+            resultado.appendChild(btnPre);
         }else{
-            resultado.innerHTML= `<h4 class="bolder">Con ${truncaDosDecimales(fuel)} galones, puede volar: ${truncaDosDecimales(fuel/avion.gph)} horas</h4>
-                                    <p class="text-end">Resumen: Peso pasajeros: ${totalPax} kgr </p>
-                                    <p class="text-end">Peso equipaje: ${parseFloat(equipaje)} kgr</p>                     
-                                    <a href="index.html"><button class="btn btn-info">Volver al Home</button></a>
-                                    <button class="btn btn-success precomp w-50 m-auto mt-2">Acceder a Precomputada</button>`;
+            resultado.innerHTML= `<h4 class="fs-5">Con ${truncaDosDecimales(fuel)} galones, puede volar: ${truncaDosDecimales(fuel/avion.gph)} horas</h4>
+                                    <div class="d-flex">
+                                        <ul class="list-group col-6">
+                                            <li class="text-start list-group-item">Modelo: ${avion.nombre}</p>
+                                            <li class="text-start list-group-item">Maximo peso: ${avion.mtow}</p>
+                                            <li class="text-start list-group-item">Peso vacio: ${avion.ew}</p>
+                                            <li class="text-start list-group-item">Maximo fuel: ${avion.maxfuel}</p>
+                                        </ul>
+                                        <ul class="col-6 list-group">
+                                            <li class="text-start list-group-item">Peso pasajeros: ${totalPax} kgr </p>
+                                            <li class="text-start list-group-item">Peso equipaje: ${parseFloat(equipaje)} kgr</p>
+                                        </ul>
+                                    </div>`;
+            //Agrego informacion del despacho
+            const unorderList = document.createElement('ul');
+            unorderList.classList.add('list-group');
+            const btnPre = document.createElement('button');
+            btnPre.classList.add('btn','btn-success','precomp','w-50','m-auto','mt-2');
+            btnPre.innerHTML='Acceder a Precomputada';
+            for (const it of despacho) {
+                const item = document.createElement('li');
+                item.classList.add('list-group-item','d-flex','justify-content-center');
+                item.innerHTML=`Nombre: ${it.nombre} - Peso: ${it.peso}`;
+                unorderList.appendChild(item);
+            };
+            resultado.appendChild(unorderList);
+            resultado.appendChild(btnPre);
         }
     }
-    
 }
+
+

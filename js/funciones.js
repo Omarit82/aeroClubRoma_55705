@@ -1,7 +1,7 @@
 /*CARGA Y MUESTRA EN EL DOM LA TABLA DE AERONAVES.*/ 
 function muestraHome(){
     flota.classList.remove('d-none');
-    /*CARGO LAS AERONAVES POR DEFECTO DESDE LA API Y LOS GUARDO EN EL LOCAL STORAGE.*/
+    /*CARGO LAS AERONAVES POR DEFECTO DESDE LA API EN MOCKAPI Y LOS GUARDO EN EL LOCAL STORAGE.*/
     const avionesJson = async function fetchAviones(){
         try {
             const response = await fetch('https://66804c6456c2c76b495bb799.mockapi.io/aeronaves/aviones');
@@ -66,12 +66,12 @@ function muestraHome(){
     }
     avionesJson();
 }
-
+/**FUNCION PARA ELIMINAR AVINOES DE LA LISTA**/
 function erase(id){
     let ident = id.split('_');
     (parseInt(ident[1]) <= 3) ?  alertaEraseDefault() : eraseAvion(parseInt(ident[1]));
 }
-
+/**FUNCION QUE DISPARA EL ALERT POR INTENTAR ELIMINAR LAS AERONAVES POR DEFECTO**/
 function alertaEraseDefault(){
     Swal.fire({
         icon: "error",
@@ -79,7 +79,7 @@ function alertaEraseDefault(){
         timer: 3000
     });
 }
-
+/**ELIMINA UN AVION SEGUN SU INDEX**/
 function eraseAvion(index){
     index = index-4;
     let hangar =JSON.parse(localStorage.getItem('aeronavesLS'));
@@ -95,7 +95,7 @@ function eraseAvion(index){
         window.location.assign('index.html');
     }, 3500);
 }
-
+/**FUNCION QUE TRUNCA A DOS DECIMALES UN VALOR INGRESADO**/
 function truncaDosDecimales(valor){
     let resultado = 100*valor;
     resultado = Math.floor(resultado)/100;

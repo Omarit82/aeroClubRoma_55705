@@ -1,10 +1,117 @@
-const formNuevaAeronave = document.getElementById('nuevaAeronave');
+//Creacion del formulario de carga de Nueva Aeronave
+const contenedorNuevaAeronave = document.getElementById('cargaAeronave');
+//Titulo del fomulario
+const encabezado = document.createElement('h3');
+encabezado.classList.add('text-center');
+encabezado.innerHTML='Carga de una nueva aeronave:';
+//Formulario de creacion de una nueva aeronave
+const formDinamico = document.createElement('form');
+formDinamico.classList.add('d-flex','flex-column','w-50','m-auto');
+formDinamico.setAttribute('id','nuevaAeronave');
+//input de modelo
+const model = document.createElement('label');
+model.setAttribute('for','modelo');
+model.classList.add('text-center');
+model.innerHTML='Modelo de la aeronave';
+const modelInput = document.createElement('input');
+modelInput.setAttribute('type','text');
+modelInput.setAttribute('name','modelo');
+modelInput.setAttribute('required','true');
+//input de tripulantes
+const trip = document.createElement('label');
+trip.setAttribute('for','tripulantes');
+trip.classList.add('text-center');
+trip.innerHTML='Ingrese la cantidad de tripulantes';
+const tripInput = document.createElement('input');
+tripInput.setAttribute('type','number');
+tripInput.setAttribute('name','tripulantes');
+tripInput.setAttribute('required','true');
+tripInput.setAttribute('min','1');
+//input de pasajeros
+const pasajeros = document.createElement('label');
+pasajeros.setAttribute('for','pasajeros');
+pasajeros.classList.add('text-center');
+pasajeros.innerHTML='Ingrese la cantidad de pasajeros';
+const paxInput = document.createElement('input');
+paxInput.setAttribute('type','number');
+paxInput.setAttribute('name','pasajeros');
+paxInput.setAttribute('required','true');
+paxInput.setAttribute('min','0');
+//input de Consumo
+const consumoForm = document.createElement('label');
+consumoForm.setAttribute('for','consumo');
+consumoForm.classList.add('text-center');
+consumoForm.innerHTML='Ingrese el consumo en GPH(galones por hora)';
+const consumoFormInput = document.createElement('input');
+consumoFormInput.setAttribute('type','number');
+consumoFormInput.setAttribute('name','consumo');
+consumoFormInput.setAttribute('required','true');
+consumoFormInput.setAttribute('step','0.1');
+consumoFormInput.setAttribute('min','0');
+//input de Maximum Takeoff Weight
+const mtowForm = document.createElement('label');
+mtowForm.setAttribute('for','mtow');
+mtowForm.classList.add('text-center');
+mtowForm.innerHTML='Ingrese el peso maximo de despegue en Kgr.';
+const mtowFormInput = document.createElement('input');
+mtowFormInput.setAttribute('type','number');
+mtowFormInput.setAttribute('name','mtow');
+mtowFormInput.setAttribute('required','true');
+mtowFormInput.setAttribute('step','0.1');
+mtowFormInput.setAttribute('min','0');
+//input de Peso Vacio
+const emptyForm = document.createElement('label');
+emptyForm.setAttribute('for','vacio');
+emptyForm.classList.add('text-center');
+emptyForm.innerHTML='Ingrese el peso vacio de la aeronave';
+const emptyFormInput = document.createElement('input');
+emptyFormInput.setAttribute('type','number');
+emptyFormInput.setAttribute('name','vacio');
+emptyFormInput.setAttribute('required','true');
+emptyFormInput.setAttribute('step','0.1');
+emptyFormInput.setAttribute('min','0');
+//input de Peso Fuel
+const fuelForm = document.createElement('label');
+fuelForm.setAttribute('for','fuel');
+fuelForm.classList.add('text-center');
+fuelForm.innerHTML='Ingrese la capacidad de combustible maxima';
+const fuelFormInput = document.createElement('input');
+fuelFormInput.setAttribute('type','number');
+fuelFormInput.setAttribute('name','fuel');
+fuelFormInput.setAttribute('required','true');
+fuelFormInput.setAttribute('step','0.1');
+fuelFormInput.setAttribute('min','0');
+//boton de submit
+const botonSubmit = document.createElement('button');
+botonSubmit.setAttribute('type','submit');
+botonSubmit.classList.add('btn','btn-success','m-auto','mt-3','w-50');
+botonSubmit.innerHTML ='Guardar';
+//Agrego todo los elementos al form y al contenedor
+formDinamico.appendChild(model);
+formDinamico.appendChild(modelInput);
+formDinamico.appendChild(trip);
+formDinamico.appendChild(tripInput);
+formDinamico.appendChild(pasajeros);
+formDinamico.appendChild(paxInput);
+formDinamico.appendChild(consumoForm);
+formDinamico.appendChild(consumoFormInput);
+formDinamico.appendChild(mtowForm);
+formDinamico.appendChild(mtowFormInput);
+formDinamico.appendChild(emptyForm);
+formDinamico.appendChild(emptyFormInput);
+formDinamico.appendChild(fuelForm);
+formDinamico.appendChild(fuelFormInput);
+formDinamico.appendChild(botonSubmit);
+contenedorNuevaAeronave.appendChild(encabezado);
+contenedorNuevaAeronave.appendChild(formDinamico);
+
 const card = document.querySelector('.card');
 card.style.backgroundColor = '#4D658D';
 card.style.color = '#FFFFFF';
 const fondo = document.body;
-fondo.style.backgroundColor ='#051938';
+fondo.style.backgroundColor ='#21376A';
 ///CREACION DE UNA AERONAVE DESDE EL FORM
+const formNuevaAeronave = document.getElementById('nuevaAeronave');
 formNuevaAeronave.addEventListener('submit',(e)=>{
     e.preventDefault();
     const informacion = new FormData(formNuevaAeronave);

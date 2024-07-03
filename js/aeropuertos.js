@@ -1,3 +1,4 @@
+/*****FUNCION ASINCRONA QUE CONSUME DESDE LA API LA INFORMACION DE LOS AEROPUERTOS SOLICITADOS****** */
 async function aeropuertosApi(origen, destino){
     const url1 = 'https://api.api-ninjas.com/v1/airports?city='+origen;
     const url2 = 'https://api.api-ninjas.com/v1/airports?city='+destino;
@@ -24,14 +25,17 @@ async function aeropuertosApi(origen, destino){
     //creo una lista con los aeropuertos de destino y arribo
     analizaConsulta(primeraConsulta,'Aeropuerto de partida :');
     analizaConsulta(segundaConsulta,'Aeropuerto de arribo :');
+    /**LLEVA AL RESULTADO DE LOS AEROPUERTOS**/
     precomputada.scrollIntoView({ behavior: "smooth" });
     seleccionAeropuertos(primeraConsulta,segundaConsulta);
+    /**REMUEVE LOGO DE ESPERA**/
     espera.removeAttribute('style');
     espera.src="";
 }
 
 
 function analizaConsulta(consulta,texto){
+    /**muestra los aeropuertos y agrega botones para seleccion**/
     const identificador = texto.split(" ");
     const subtitulo1 = document.createElement('h4');
     subtitulo1.innerHTML = texto;
@@ -39,10 +43,10 @@ function analizaConsulta(consulta,texto){
     ul.classList.add('list-group');
     if(consulta.length > 1){
         let contador=0;
-        for (const partida of consulta) {
+        for (const item of consulta) {
             const li = document.createElement('li');
             li.classList.add('d-flex','justify-content-between','list-group-item');
-            li.innerHTML = `Icao: ${partida.icao} |Nombre: ${partida.name} |Elevacion(ft): ${partida.elevation_ft}
+            li.innerHTML = `Icao: ${item.icao} |Nombre: ${item.name} |Elevacion(ft): ${item.elevation_ft}
                             <button class="${identificador[2]} btn w-25 btn-info m-2">Seleccionar</button>`;
             ul.appendChild(li);
             contador++;
@@ -71,7 +75,7 @@ function seleccionAeropuertos(origen,destino){
     const partidas = document.querySelectorAll('.arribo');
     for (let i=0;i<origenes.length;i++) {
         origenes[i].addEventListener('click',()=>{
-            origenSeleccionado.innerHTML=origen[i].icao;
+            origenSeleccionado.innerHTML='Desde: -> '+origen[i].icao;
             //guardo el aeropuerto seleccionado en localstorage y ejecuto calculo de distancia
             const salida = JSON.stringify(origen[i]);
             localStorage.setItem('origen',salida);
@@ -80,7 +84,8 @@ function seleccionAeropuertos(origen,destino){
     }
     for (let i=0;i<partidas.length;i++) {
         partidas[i].addEventListener('click',()=>{
-            destinoSeleccionado.innerHTML=destino[i].icao;
+            destinoSeleccionado.innerHTML='Hasta: -> '+destino[i].icao;
+              //guardo el aeropuerto seleccionado en localstorage y ejecuto calculo de distancia
             const llegada = JSON.stringify(destino[i]);
             localStorage.setItem('destino',llegada);
             calculoDistancia();
@@ -107,25 +112,32 @@ function calculoDistancia(){
         let intermedio =Math.pow(Math.sin(deltaLatitude/2),2)+(Math.cos(lat1)*Math.cos(lat2)*Math.pow(Math.sin(deltaLongitude/2),2));
         let intermedioDos = 2*Math.atan2(Math.sqrt(intermedio),Math.sqrt(1-intermedio));
         let distancia = intermedioDos * 3440;
-        resultado.innerHTML = truncaDosDecimales(distancia)+' millas nauticas';
+        resultado.innerHTML ='Distancia total: -> '+ truncaDosDecimales(distancia)+' millas nauticas';
         const clima = document.createElement('button');
         clima.setAttribute('id','meteorologia');
         clima.classList.add('btn','btn-dark','w-25','m-auto','mt-3');
         clima.innerHTML = 'Meteorologia';
+        /**AGREGO EL BOTON PARA CONSULTAR LA METEOROLOGIA**/
         const meteo = document.getElementById('meteorologia');
+        /**capturo el boton de meteorologia**/
         precomputada.contains(meteo) ? precomputada.removeChild(meteo):false;
         precomputada.appendChild(clima);
+        /**CONSULTA DE METEOROLOGIA**/
         clima.addEventListener('click',()=>{
-            espera.src = '../assets/img/wait.png';
-            espera.classList.add('m-auto');
-            espera.style.position ='relative';
-            espera.style.transition ='transform 3s ease-out';
+            /**AGREGO EL LOGO DE ESPERA**/
+            wait.src = '../assets/img/wait.png';
+            wait.classList.add('m-auto');
+            wait.style.position ='relative';
+            wait.style.transition ='transform 3s ease-out';
+            clima.appendChild(wait);
             setTimeout(() => {
-                espera.style.transform = 'rotate(720deg)';
+                wait.style.transform = 'rotate(720deg)';
             }, 100);
+            /**llamo a la funcion de consulta de meteorologia**/
             consultaMeteo(origen.icao);
             consultaMeteo(destino.icao);
         });
+        /**DESPLAZO EL VIEW HASTA LA METEOROLOGIA**/
         clima.scrollIntoView({ behavior: "smooth" });
     }
 }

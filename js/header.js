@@ -1,4 +1,4 @@
-/*********************TITULO****************************/
+/*********************TITULO HEADER****************************/
 const titulo = document.createElement('h1');
 const linkTitulo = document.createElement('a');
 linkTitulo.style.textDecoration = 'none';

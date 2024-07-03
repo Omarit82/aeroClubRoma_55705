@@ -11,7 +11,8 @@ const contenedor = document.createElement('div'); // contenedor de botones
 const link = document.createElement('a');
 const precomputada = document.querySelector('.precomputada');
 const resultado = document.createElement('li');
-const espera = document.createElement('img');
+const espera = document.createElement('img'); 
+const wait = document.createElement('img');
 /********************MENU DE OPCIONES*******************/
 contenedor.classList.add('d-flex','justify-content-around','pb-2','pt-2','m-auto','mb-2','w-75');
 contenedor.style.border = ('1px solid gray');

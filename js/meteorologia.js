@@ -1,3 +1,4 @@
+/**FUNCION ASINCRONA QUE CONSULTA LA METEOROLOGIA DEL AEROPUERTO SEGUN SU CODIGO ICAO**/
 async function consultaMeteo(icao){
     const meteo = await fetch(`https://avwx.rest/api/metar/${icao}`,{
         method:'get',
@@ -29,7 +30,7 @@ async function consultaMeteo(icao){
         break;
     }    
 }
-
+/***MUESTRA EN EL DOM LA METEOROLOGIA OBTENIDA**/
 function impresion(info){
     const ul = document.createElement('ul');
     const nombre = document.createElement('li');
@@ -58,6 +59,8 @@ function impresion(info){
     ul.appendChild(visibilidad);
     ul.appendChild(viento);
     precomputada.appendChild(ul);
-    //moverme a ul
+    wait.removeAttribute('style');
+    wait.src="";
+    //MUEVO LA VISTA HASTA LA UL DE LA METEOROLOGIA
     ul.scrollIntoView({ behavior: "smooth" });
 }
