@@ -10,7 +10,6 @@ async function aeropuertosApi(origen, destino){
           },
         body: JSON.stringify() 
     });
-    const primeraConsulta = await consulta1.json();
     const consulta2 = await fetch(url2,{
         method:'get',
         headers: {
@@ -19,18 +18,46 @@ async function aeropuertosApi(origen, destino){
           },
         body: JSON.stringify()
     });
+    const primeraConsulta = await consulta1.json();
     const segundaConsulta = await consulta2.json();
-    precomputada.classList.remove('d-none');
-    precomputada.innerHTML="";
-    //creo una lista con los aeropuertos de destino y arribo
-    analizaConsulta(primeraConsulta,'Aeropuerto de partida :');
-    analizaConsulta(segundaConsulta,'Aeropuerto de arribo :');
-    /**LLEVA AL RESULTADO DE LOS AEROPUERTOS**/
-    precomputada.scrollIntoView({ behavior: "smooth" });
-    seleccionAeropuertos(primeraConsulta,segundaConsulta);
-    /**REMUEVE LOGO DE ESPERA**/
-    espera.removeAttribute('style');
-    espera.src="";
+    //CHEQUEO EL STATUS DE LAS CONSULAS
+    if ((consulta1.status != 200)||(consulta2.status != 200)){
+        Swal.fire({
+            icon: "error",
+            title: "Error al realizar la consulta",
+            timer: 3000
+        });
+    }else if((primeraConsulta.length === 0)||(segundaConsulta.length === 0)){
+        if(primeraConsulta.length === 0){
+            Swal.fire({
+                icon: "error",
+                title: `No existe un aeropuerto vinculado a: ${origen}`,
+                timer: 3000
+            });
+            espera.removeAttribute('style');
+            espera.src="";
+        }else{
+            Swal.fire({
+                icon: "error",
+                title: `No existe un aeropuerto vinculado a: ${destino}`,
+                timer: 3000
+            });
+            espera.removeAttribute('style');
+            espera.src="";
+        }
+    }else{
+        precomputada.classList.remove('d-none');
+        precomputada.innerHTML="";
+        //creo una lista con los aeropuertos de destino y arribo
+        analizaConsulta(primeraConsulta,'Aeropuerto de partida :');
+        analizaConsulta(segundaConsulta,'Aeropuerto de arribo :');
+        /**LLEVA AL RESULTADO DE LOS AEROPUERTOS**/
+        precomputada.scrollIntoView({ behavior: "smooth" });
+        seleccionAeropuertos(primeraConsulta,segundaConsulta);
+        /**REMUEVE LOGO DE ESPERA**/
+        espera.removeAttribute('style');
+        espera.src="";
+    }
 }
 
 
@@ -136,8 +163,27 @@ function calculoDistancia(){
             /**llamo a la funcion de consulta de meteorologia**/
             consultaMeteo(origen.icao);
             consultaMeteo(destino.icao);
+            showMap(origen, destino);
         });
+        
         /**DESPLAZO EL VIEW HASTA LA METEOROLOGIA**/
         clima.scrollIntoView({ behavior: "smooth" });
     }
+}
+
+function showMap(origen, destino){
+    //creo el div para el mapa
+    const mapa = document.createElement('div');
+    mapa.classList.add('mt-2');
+    mapa.setAttribute('id','map');
+    mapa.style.overflow ='hidden';
+    mapa.style.height = '250px';
+    mapa.style.border = 'solid 2px gray';
+    precomputada.appendChild(mapa);
+    /*******************/
+    const map = L.map('map').setView([origen.latitude,origen.longitude],10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{ maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+    map.invalidateSize();
+    L.marker([origen.latitude,origen.longitude]).addTo(map).bindPopup(origen.icao).openPopup();
 }

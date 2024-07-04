@@ -15,11 +15,13 @@ async function consultaMeteo(icao){
             break;
         case 204:
             Swal.fire({
-                icon: "error",
+                icon: "info",
                 title: "No existe informacion meteorologia de: ",
                 html: `<p>${icao} </p>`,
                 timer: 3000
             });
+            wait.removeAttribute('style');
+            wait.src="";
             break;
         default:
             Swal.fire({
@@ -27,6 +29,8 @@ async function consultaMeteo(icao){
                 title: `${meteo.status}`,
                 timer: 3000
             });
+            wait.removeAttribute('style');
+            wait.src="";
         break;
     }    
 }
