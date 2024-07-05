@@ -141,7 +141,14 @@ function calculoDistancia(){
         let intermedio =Math.pow(Math.sin(deltaLatitude/2),2)+(Math.cos(lat1)*Math.cos(lat2)*Math.pow(Math.sin(deltaLongitude/2),2));
         let intermedioDos = 2*Math.atan2(Math.sqrt(intermedio),Math.sqrt(1-intermedio));
         let distancia = intermedioDos * 3440;
-        resultado.innerHTML ='Distancia total: -> '+ truncaDosDecimales(distancia)+' millas nauticas';
+        //comparo la distancia con el alcance maximo
+        let alcance = document.querySelector('.alcance');
+        alcance = parseFloat(alcance.innerHTML);
+        if(distancia <= alcance){
+            resultado.innerHTML ='Distancia total: -> '+ truncaDosDecimales(distancia)+' millas nauticas, remanente: '+truncaDosDecimales(alcance-distancia)+' nm';
+        }else{
+            resultado.innerHTML ='Distancia total: -> '+ truncaDosDecimales(distancia)+' nm, supera el alcance de la aeronave por: '+truncaDosDecimales(distancia-alcance)+' nm';
+        };
         const clima = document.createElement('button');
         clima.setAttribute('id','meteorologia');
         clima.classList.add('btn','btn-dark','w-25','m-auto','mt-3');

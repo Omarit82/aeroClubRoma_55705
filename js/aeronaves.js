@@ -57,6 +57,7 @@ function checkAeronave(){
     let despacho = sessionStorage.getItem('despacho');
     let equipaje = sessionStorage.getItem('equipaje');
     avion = JSON.parse(avion);
+    console.log(avion);
     despacho = JSON.parse(despacho);
     equipaje = JSON.parse(equipaje);
     // SE CONSIDERA 0 EL PESO DE CUALQUIER PASAJERO O TRIPULANTE SIN NOMBRE
@@ -65,6 +66,7 @@ function checkAeronave(){
             pax.peso = 0;
         }
     };
+    //EN CASO DE NO HABER CARGADO EQUIPAJE SE COLOCA UN 0 POR DEFECTO
     if(equipaje === ""){
         equipaje = 0;
     };
@@ -76,6 +78,7 @@ function checkAeronave(){
     homeButton.innerHTML='Volver al Home';
     home.appendChild(homeButton);
     /*******************************/
+    //CALCULO EL PESO TOTAL DE LA CARGA
     let totalPax = despacho.reduce((acumulador, persona) => acumulador + parseFloat(persona.peso), 0);
     let total = totalPax + parseFloat(equipaje);
     const resultado = document.querySelector('.resultado');
@@ -90,6 +93,9 @@ function checkAeronave(){
     //aplico funcionalidad al boton de precomputada
     document.querySelector('.precomp').addEventListener('click',()=>{
         //creamos el formulario
+        //Reinicio ORIGEN Y DESTINO
+        localStorage.removeItem('origen');
+        localStorage.removeItem('destino');
         const formulario = document.createElement('form');
         formulario.classList.add('card','m-2');
         //creamos el titulo
@@ -167,7 +173,7 @@ function checkAeronave(){
     function showWeight(){
         let fuel = (avion.mtow-avion.ew-total)*1.70/3.8 // Convierto peso de combustible a galones de combustible
         if(fuel > avion.maxfuel){
-            resultado.innerHTML= `<h4 class="fs-5">Con ${truncaDosDecimales(avion.maxfuel)} galones, puede volar: ${truncaDosDecimales(avion.maxfuel/avion.gph)} horas | Puede completar el tanque</h4>
+            resultado.innerHTML= `<h4 class="fs-5">Con ${truncaDosDecimales(avion.maxfuel)} galones, puede volar: ${truncaDosDecimales(avion.maxfuel/avion.gph)} horas | Puede completar el tanque y recorrer: <span class="alcance text-primary">${truncaDosDecimales(avion.maxfuel/avion.gph*(avion.crucero))}</span> millas nauticas</h4>
                                     <div class="d-flex">
                                         <ul class="list-group col-6">
                                             <li class="text-start list-group-item">Modelo: ${avion.nombre}</li>
@@ -195,7 +201,7 @@ function checkAeronave(){
             resultado.appendChild(unorderList);
             resultado.appendChild(btnPre);
         }else{
-            resultado.innerHTML= `<h4 class="fs-5">Con ${truncaDosDecimales(fuel)} galones, puede volar: ${truncaDosDecimales(fuel/avion.gph)} horas</h4>
+            resultado.innerHTML= `<h4 class="fs-5">Con ${truncaDosDecimales(fuel)} galones, puede volar: ${truncaDosDecimales(fuel/avion.gph)} horas y recorrer: <span class="alcance text-primary">${truncaDosDecimales(fuel/avion.gph*(avion.crucero))}</span> millas nauticas</h4>
                                     <div class="d-flex">
                                         <ul class="list-group col-6">
                                             <li class="text-start list-group-item">Modelo: ${avion.nombre}</p>

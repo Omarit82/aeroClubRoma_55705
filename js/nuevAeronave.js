@@ -48,6 +48,17 @@ consumoFormInput.setAttribute('name','consumo');
 consumoFormInput.setAttribute('required','true');
 consumoFormInput.setAttribute('step','0.1');
 consumoFormInput.setAttribute('min','0');
+//input de Consumo
+const cruceroForm = document.createElement('label');
+cruceroForm.setAttribute('for','crucero');
+cruceroForm.classList.add('text-center');
+cruceroForm.innerHTML='Ingrese la velocidad crucero';
+const cruceroInput = document.createElement('input');
+cruceroInput.setAttribute('type','number');
+cruceroInput.setAttribute('name','crucero');
+cruceroInput.setAttribute('required','true');
+cruceroInput.setAttribute('step','0.1');
+cruceroInput.setAttribute('min','0');
 //input de Maximum Takeoff Weight
 const mtowForm = document.createElement('label');
 mtowForm.setAttribute('for','mtow');
@@ -95,6 +106,8 @@ formDinamico.appendChild(pasajeros);
 formDinamico.appendChild(paxInput);
 formDinamico.appendChild(consumoForm);
 formDinamico.appendChild(consumoFormInput);
+formDinamico.appendChild(cruceroForm);
+formDinamico.appendChild(cruceroInput);
 formDinamico.appendChild(mtowForm);
 formDinamico.appendChild(mtowFormInput);
 formDinamico.appendChild(emptyForm);
@@ -121,13 +134,15 @@ formNuevaAeronave.addEventListener('submit',(e)=>{
         objeto[key]=value;
     });
     //Desestructuro el objeto
-    const {modelo,tripulantes, pasajeros,consumo,mtow,vacio,fuel}= objeto;
+    const {modelo,tripulantes,pasajeros,consumo,crucero,mtow,vacio,fuel} = objeto;
     //utilizo la clase aeronave para crear el nuevo objeto
-    const nuevaAeronave = new Aeronave(modelo,tripulantes,pasajeros,consumo,mtow,vacio,fuel);
+    const nuevaAeronave = new Aeronave(modelo,parseInt(tripulantes),parseInt(pasajeros),parseFloat(consumo),parseFloat(crucero),parseFloat(mtow),parseFloat(vacio),parseFloat(fuel));
     const nueva = JSON.stringify(nuevaAeronave);
+    console.log(nueva);
     let hangarLS = JSON.parse(localStorage.getItem('aeronavesLS'));
     //UTILIZO EL OPERADOR NULLISH PARA CHEQUEAR SI EL ARREGLO ES NULL
     hangarLS ?? cargaInicial();
+    //en caso de que no exista(porque aun no se cargo ninguna aeronave, ejecuto la funcion a continuacion que crea el arreglo y lo sube al localStorage)
     function cargaInicial(){
         const aeronavesLS = [];
         localStorage.setItem('aeronavesLS',JSON.stringify(aeronavesLS));

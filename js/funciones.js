@@ -1,6 +1,7 @@
 /*CARGA Y MUESTRA EN EL DOM LA TABLA DE AERONAVES.*/ 
 function muestraHome(){
     flota.classList.remove('d-none');
+
     /*CARGO LAS AERONAVES POR DEFECTO DESDE LA API EN MOCKAPI Y LOS GUARDO EN EL LOCAL STORAGE.*/
     const avionesJson = async function fetchAviones(){
         try {
@@ -20,6 +21,8 @@ function muestraHome(){
             )
         }
     }
+    avionesJson();
+
     function loadAeronavesLocalStorage(aviones){
         /*CARGO LAS AERONAVES EN LOCALSTORE*/
         let av = JSON.parse(localStorage.getItem('aeronavesLS'));
@@ -28,7 +31,7 @@ function muestraHome(){
                 aeronaves.push(JSON.parse(item));
             }
         }
-        tabla.innerHTML=""; //limpio la tabla
+        //tabla.innerHTML=""; //limpio la tabla
         let contador=1;
         for(const avion of aviones) {
             let index = document.createElement('th');
@@ -64,7 +67,6 @@ function muestraHome(){
             contador++;
         }
     }
-    avionesJson();
 }
 /**FUNCION PARA ELIMINAR AVINOES DE LA LISTA**/
 function erase(id){
@@ -76,7 +78,7 @@ function alertaEraseDefault(){
     Swal.fire({
         icon: "error",
         title: "No pueden eliminarse las aeronaves por defecto",
-        timer: 3000
+        timer: 2500
     });
 }
 /**ELIMINA UN AVION SEGUN SU INDEX**/
@@ -88,12 +90,11 @@ function eraseAvion(index){
     Swal.fire({
         icon: "success",
         title: "Aeronave Eliminada!",
-        footer: '<a href="index.html">HOME</a>',
-        timer: 3000
+        timer: 2000
     });
     setTimeout(() => {
         window.location.assign('index.html');
-    }, 3500);
+    }, 2000);
 }
 /**FUNCION QUE TRUNCA A DOS DECIMALES UN VALOR INGRESADO**/
 function truncaDosDecimales(valor){

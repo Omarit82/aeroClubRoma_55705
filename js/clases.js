@@ -1,10 +1,11 @@
 //******CLASE AERONAVE PARA INSTANCIAR NUEVAS AERONAVES******/
 class Aeronave{
-    constructor(nombre,tripulacion,pax,gph,mtow,ew,maxfuel){
+    constructor(nombre,tripulacion,pax,gph,crucero,mtow,ew,maxfuel){
         this.nombre = nombre,
         this.tripulacion = tripulacion,
         this.pax = pax,
         this.gph = gph,
+        this.crucero = crucero;
         this.mtow = mtow,
         this.ew = ew,
         this.maxfuel = maxfuel
