@@ -39,7 +39,7 @@ function impresion(info){
     const ul = document.createElement('ul');
     const nombre = document.createElement('li');
     nombre.classList.add('list-group-item');
-    nombre.innerHTML='Informacion: '+info.raw;
+    nombre.innerHTML='Informacion Meteorológica: '+info.raw;
     ul.classList.add('list-group','mb-2','mt-2');
     const tiempo = document.createElement('li');
     tiempo.classList.add('list-group-item');
@@ -49,7 +49,7 @@ function impresion(info){
     altimetro.innerHTML='Altimetro: '+info.altimeter.repr;
     const temperatura = document.createElement('li');
     temperatura.classList.add('list-group-item');
-    temperatura.innerHTML = 'Temperatura: '+info.temperature.repr+'/'+info.dewpoint.repr;
+    temperatura.innerHTML = 'Temperatura: '+info.temperature.repr+'/Punto de rocio: '+info.dewpoint.repr;
     const visibilidad = document.createElement('li');
     visibilidad.classList.add('list-group-item');
     visibilidad.innerHTML = 'Visibilidad: '+info.visibility.repr;

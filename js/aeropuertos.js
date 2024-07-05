@@ -27,6 +27,8 @@ async function aeropuertosApi(origen, destino){
             title: "Error al realizar la consulta",
             timer: 3000
         });
+        espera.removeAttribute('style');
+        espera.src="";
     }else if((primeraConsulta.length === 0)||(segundaConsulta.length === 0)){
         if(primeraConsulta.length === 0){
             Swal.fire({
@@ -184,6 +186,11 @@ function showMap(origen, destino){
     const map = L.map('map').setView([origen.latitude,origen.longitude],10);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{ maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
-    map.invalidateSize();
     L.marker([origen.latitude,origen.longitude]).addTo(map).bindPopup(origen.icao).openPopup();
+    L.marker([destino.latitude,destino.longitude]).addTo(map).bindPopup(destino.icao);
+    // Dibujo una linea que conecte los dos puntos
+    let coordenadas = [[origen.latitude,origen.longitude], [destino.latitude,destino.longitude]];
+    var linea = L.polyline(coordenadas, { color: 'red' }).addTo(map);
+    // Ajustar el mapa para que muestre la línea completa
+    map.fitBounds(linea.getBounds());
 }

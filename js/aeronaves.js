@@ -134,7 +134,8 @@ function checkAeronave(){
         });
     })    
     function showOverWeight(){
-        resultado.innerHTML = `<h4 class="fs-5">Con un total de : ${truncaDosDecimales(total + avion.ew)} kgr, se supera el peso maximo de despegue de: ${avion.mtow} kgr</h4>
+        resultado.innerHTML = `<h4 class="fs-5 text-danger fw-bold">Con un total de : ${truncaDosDecimales(total + avion.ew)} kgr, se supera el peso maximo de despegue de: ${avion.mtow} kgr</h4>
+                               <h5 class="fs-5 text-danger fw-bolder">NO PUEDE REALIZARSE EL VUELO</h5> 
                                 <div class="d-flex">
                                     <ul class="col-6 list-group">
                                         <li class="text-start list-group-item">Modelo: ${avion.nombre}</li>
