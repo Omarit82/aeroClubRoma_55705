@@ -31,7 +31,6 @@ function muestraHome(){
                 aeronaves.push(JSON.parse(item));
             }
         }
-        //tabla.innerHTML=""; //limpio la tabla
         let contador=1;
         for(const avion of aviones) {
             let index = document.createElement('th');

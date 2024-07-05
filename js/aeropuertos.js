@@ -20,7 +20,7 @@ async function aeropuertosApi(origen, destino){
     });
     const primeraConsulta = await consulta1.json();
     const segundaConsulta = await consulta2.json();
-    //CHEQUEO EL STATUS DE LAS CONSULAS
+    //CHEQUEO EL STATUS DE LAS CONSULTAS
     if ((consulta1.status != 200)||(consulta2.status != 200)){
         Swal.fire({
             icon: "error",

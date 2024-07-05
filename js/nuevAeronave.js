@@ -138,7 +138,6 @@ formNuevaAeronave.addEventListener('submit',(e)=>{
     //utilizo la clase aeronave para crear el nuevo objeto
     const nuevaAeronave = new Aeronave(modelo,parseInt(tripulantes),parseInt(pasajeros),parseFloat(consumo),parseFloat(crucero),parseFloat(mtow),parseFloat(vacio),parseFloat(fuel));
     const nueva = JSON.stringify(nuevaAeronave);
-    console.log(nueva);
     let hangarLS = JSON.parse(localStorage.getItem('aeronavesLS'));
     //UTILIZO EL OPERADOR NULLISH PARA CHEQUEAR SI EL ARREGLO ES NULL
     hangarLS ?? cargaInicial();
