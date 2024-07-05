@@ -3,6 +3,8 @@ La webApp del Aeroclub Roma permite, inicialmente, realizar un calculo sobre el 
 Desde MockApi se cargan al Home tres aeronaves por defecto // Estas aeronaves no pueden eliminarse
 Puede seleccionarse una de estas aeronaves o agregar una nueva aeronave // Estas aeronaves se cargan al LocalStorage y pueden elminarse haciendo click en el respectivo boton. 
 
+La tabla muesta la cantidad de tripulacion y pasajeros que puede llevar la aeronave, su consumo en galones de combustible por hora, su velocidad crucero, su maximo peso de despegue, su peso vacio y su capacidad maxima de combustible.
+
 La validacion de datos desde el html impide ingresar valores erroneos (numero negativos o caracteres incorrectos) en los campos
 que corresponden. 
 
