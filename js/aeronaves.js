@@ -57,7 +57,6 @@ function checkAeronave(){
     let despacho = sessionStorage.getItem('despacho');
     let equipaje = sessionStorage.getItem('equipaje');
     avion = JSON.parse(avion);
-    console.log(avion);
     despacho = JSON.parse(despacho);
     equipaje = JSON.parse(equipaje);
     // SE CONSIDERA 0 EL PESO DE CUALQUIER PASAJERO O TRIPULANTE SIN NOMBRE
