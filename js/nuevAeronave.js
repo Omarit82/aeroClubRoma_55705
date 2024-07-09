@@ -150,13 +150,8 @@ formNuevaAeronave.addEventListener('submit',(e)=>{
         
     hangarLS.push(nueva);
     localStorage.setItem('aeronavesLS',JSON.stringify(hangarLS));
-    formNuevaAeronave.reset()
-    Swal.fire({
-        icon: "success",
-        title: "Aeronave Guardada!",
-        html: `<p> A guardado la aeronave: ${informacion.get('modelo')} en LocalStorage</p>`,
-        timer: 3000
-    });
+    formNuevaAeronave.reset();
+    alerta('success','Aeronave Guardada!',`<p> A guardado la aeronave: ${informacion.get('modelo')} en LocalStorage</p>`,2500);
     setTimeout(() => {
         window.location.assign('index.html');
     }, 3000);

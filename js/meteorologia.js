@@ -14,21 +14,12 @@ async function consultaMeteo(icao){
             impresion(info);
             break;
         case 204:
-            Swal.fire({
-                icon: "info",
-                title: "No existe informacion meteorologia de: ",
-                html: `<p>${icao} </p>`,
-                timer: 3000
-            });
+            alerta('info','No existe informacion meteorologia de: ','`<strong>${icao} </strong>`',2500);
             wait.removeAttribute('style');
             wait.src="";
             break;
         default:
-            Swal.fire({
-                icon: "error",
-                title: `${meteo.status}`,
-                timer: 3000
-            });
+            alerta('error',`${meteo.status}`,'',2500);
             wait.removeAttribute('style');
             wait.src="";
         break;

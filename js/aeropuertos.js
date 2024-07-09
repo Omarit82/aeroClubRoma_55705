@@ -22,28 +22,16 @@ async function aeropuertosApi(origen, destino){
     const segundaConsulta = await consulta2.json();
     //CHEQUEO EL STATUS DE LAS CONSULTAS
     if ((consulta1.status != 200)||(consulta2.status != 200)){
-        Swal.fire({
-            icon: "error",
-            title: "Error al realizar la consulta",
-            timer: 3000
-        });
+        alerta('error','Error al realizar la consulta','',3000);
         espera.removeAttribute('style');
         espera.src="";
     }else if((primeraConsulta.length === 0)||(segundaConsulta.length === 0)){
         if(primeraConsulta.length === 0){
-            Swal.fire({
-                icon: "error",
-                title: `No existe un aeropuerto vinculado a: ${origen}`,
-                timer: 3000
-            });
+            alerta('error',`No existe un aeropuerto vinculado a: ${origen}`,'',2500);
             espera.removeAttribute('style');
             espera.src="";
         }else{
-            Swal.fire({
-                icon: "error",
-                title: `No existe un aeropuerto vinculado a: ${destino}`,
-                timer: 3000
-            });
+            alerta('error',`No existe un aeropuerto vinculado a: ${destino}`,'',2500);
             espera.removeAttribute('style');
             espera.src="";
         }
@@ -94,6 +82,7 @@ function analizaConsulta(consulta,texto){
 function seleccionAeropuertos(origen,destino){
     //TOMO TODOS LOS BOTONES PARA SELECCIONAR LOS AEROPUERTOS DE ORIGEN Y DESTINO
     //Le agrego a precomputada un casillero donde calculo la distancia entre los aeropuertos.
+    alerta('info','Seleccione los aeropuertos de Origen y Destino','',2000);
     const origenSeleccionado = document.createElement('li');
     origenSeleccionado.classList.add('list-group-item');
     const destinoSeleccionado = document.createElement('li');

@@ -14,11 +14,7 @@ function muestraHome(){
                 loadAeronavesLocalStorage(aeronaves);
             }
         } catch (error) {
-            Swal.fire(
-                'Aviso',
-                'Error en el fetch al JSON',
-                'error'
-            )
+            alerta('error','Error en el fetch al JSON','',2000);
         }
     }
     avionesJson();
@@ -74,11 +70,7 @@ function erase(id){
 }
 /**FUNCION QUE DISPARA EL ALERT POR INTENTAR ELIMINAR LAS AERONAVES POR DEFECTO**/
 function alertaEraseDefault(){
-    Swal.fire({
-        icon: "error",
-        title: "No pueden eliminarse las aeronaves por defecto",
-        timer: 2500
-    });
+    alerta('error','No pueden eliminarse las aeronaves por defecto','',2500);
 }
 /**ELIMINA UN AVION SEGUN SU INDEX**/
 function eraseAvion(index){
@@ -86,11 +78,7 @@ function eraseAvion(index){
     let hangar =JSON.parse(localStorage.getItem('aeronavesLS'));
     hangar = hangar.filter((_,i)=> i !== index);
     localStorage.setItem('aeronavesLS',JSON.stringify(hangar));
-    Swal.fire({
-        icon: "success",
-        title: "Aeronave Eliminada!",
-        timer: 2000
-    });
+    alerta('success','Aeronave Eliminada!','',2000);
     setTimeout(() => {
         window.location.assign('index.html');
     }, 2000);
@@ -100,5 +88,15 @@ function truncaDosDecimales(valor){
     let resultado = 100*valor;
     resultado = Math.floor(resultado)/100;
     return resultado;
+}
+
+/**FUNCION QUE DISPARA EL SWEET ALERT */
+function alerta(icon, title, footer, timer){
+    Swal.fire({
+        icon: icon,
+        title: title,
+        footer: footer,
+        timer: timer
+    });
 }
 
