@@ -14,7 +14,7 @@ async function consultaMeteo(icao){
             impresion(info);
             break;
         case 204:
-            alerta('info','No existe informacion meteorologia de: ','`<strong>${icao} </strong>`',2500);
+            alerta('info','No existe informacion meteorologia de: ',`<strong>${icao} </strong>`,2500);
             wait.removeAttribute('style');
             wait.src="";
             break;
